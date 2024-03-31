@@ -1,0 +1,41 @@
+function sturgesFormula(n) {
+  return Math.floor(1 + 3.322 * Math.log10(n));
+}
+
+function getRange(min, max) {
+  return max - min;
+}
+
+function getClassSize(range, interval) {
+  return Math.round(range / interval);
+}
+
+function getFrequencyDistribution(data) {
+  const sortedData = data.sort((a, b) => {
+    return a - b;
+  });
+  const n = sortedData.length;
+  let min = sortedData[0];
+  const max = sortedData[n - 1];
+  const classIntervals = sturgesFormula(n);
+  const range = getRange(min, max);
+  const classSize = getClassSize(range, classIntervals);
+
+  let frequencyDistribution = {};
+  for (let index = 0; index < classIntervals; index++) {
+    const intervalUpperBoundary = min + (classSize - 1);
+    const range = `${min}-${intervalUpperBoundary}`;
+    frequencyDistribution[range] = 0;
+    min += classSize;
+    if (index === classIntervals - 1 && intervalUpperBoundary < max) {
+      const lastRange = `${min}-${min + (classSize - 1)}`;
+      frequencyDistribution[lastRange] = 0;
+    }
+  }
+
+  return frequencyDistribution;
+}
+
+module.exports = {
+  getFrequencyDistribution,
+};
