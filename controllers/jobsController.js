@@ -1,7 +1,6 @@
 require("dotenv").config();
 const asyncHandler = require("express-async-handler");
 const db = require("../helpers/dbConnection");
-const stat = require("../utils/statUtils");
 const normalizedTechData = require(`../${process.env.NORMALIZED_TECH_KEYWORDS}`);
 const techCategories = require(`../${process.env.TECH_CATEGORIES}`);
 
@@ -53,51 +52,6 @@ exports.getJobs = asyncHandler(async (req, res) => {
     res.status(200).send(jobs);
   } catch (error) {
     res.status(400).send("error occured while retrieving jobs");
-  }
-});
-
-exports.getSalary = asyncHandler(async (req, res) => {
-  try {
-    let salaryDetails = {
-      undisclosed: null,
-      disclosed: null,
-    };
-
-    const salaryListQuery = db.prepare(
-      "SELECT salary FROM job_data where salary is not null"
-    );
-    salaryListQuery.raw();
-    const salaryList = salaryListQuery
-      .all()
-      .flat()
-      .sort((a, b) => a - b);
-
-    const nullSalaryListQuery = db.prepare(
-      "SELECT salary FROM job_data where salary is null"
-    );
-    nullSalaryListQuery.raw();
-    const nullSalaryList = nullSalaryListQuery.all().flat();
-
-    let frequencyDistribution = stat.getFrequencyDistribution(salaryList);
-
-    for (const salaryRange in frequencyDistribution) {
-      const [min, max] = salaryRange.split("-");
-      let rangeCount = 0;
-      salaryList.forEach((salary) => {
-        if (salary >= Number(min) && salary <= max) {
-          rangeCount += 1;
-        }
-      });
-      frequencyDistribution[salaryRange] = rangeCount;
-    }
-
-    salaryDetails.undisclosed = nullSalaryList.length;
-    salaryDetails.disclosed = frequencyDistribution;
-
-    res.status(200).json(salaryDetails);
-  } catch (error) {
-    console.error(error);
-    res.status(400).send("error");
   }
 });
 
