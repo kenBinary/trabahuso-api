@@ -65,15 +65,6 @@ exports.getTechFrequency = asyncHandler(async (req, res) => {
         }
         break;
       }
-      case "cloud_platformss": {
-        const techList = techCategories[category];
-        for (const tech in normTechPop) {
-          if (!techList.includes(tech)) {
-            delete normTechPop[tech];
-          }
-        }
-        break;
-      }
       case "programming_languages": {
         const techList = techCategories[category];
         for (const tech in normTechPop) {
