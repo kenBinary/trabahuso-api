@@ -21,19 +21,25 @@ function getFrequencyDistribution(data) {
   const range = getRange(min, max);
   const classSize = getClassSize(range, classIntervals);
 
-  let frequencyDistribution = {};
+  let frequencyDistributionList = [];
   for (let index = 0; index < classIntervals; index++) {
+    let frequencyDistribution = {};
     const intervalUpperBoundary = min + (classSize - 1);
     const range = `${min}-${intervalUpperBoundary}`;
-    frequencyDistribution[range] = 0;
+    frequencyDistribution["range"] = range;
+    frequencyDistribution["count"] = 0;
+    frequencyDistributionList.push({ ...frequencyDistribution });
+
     min += classSize;
     if (index === classIntervals - 1 && intervalUpperBoundary < max) {
       const lastRange = `${min}-${min + (classSize - 1)}`;
-      frequencyDistribution[lastRange] = 0;
+      frequencyDistribution["range"] = lastRange;
+      frequencyDistribution["count"] = 0;
+      frequencyDistributionList.push({ ...frequencyDistribution });
     }
   }
 
-  return frequencyDistribution;
+  return frequencyDistributionList;
 }
 
 module.exports = {
