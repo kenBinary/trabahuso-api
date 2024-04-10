@@ -21,7 +21,7 @@ exports.getJobs = asyncHandler(async (req, res) => {
     const { month, year, province } = req.query;
 
     const statement = db.prepare(
-      "SELECT job_title, location, salary, job_level, date_scraped FROM job_data"
+      "SELECT job_title, location, salary, job_level, date_scraped FROM job_data order by date_scraped desc"
     );
     let jobs = statement.all();
 
@@ -46,8 +46,10 @@ exports.getJobs = asyncHandler(async (req, res) => {
         return province.toUpperCase() === jobLocation.toUpperCase();
       });
     }
-
-    res.status(200).send(jobs);
+    res.status(200).json({
+      data: jobs,
+      count: jobs.length,
+    });
   } catch (error) {
     res.status(400).send("error occured while retrieving jobs");
   }
