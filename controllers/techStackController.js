@@ -10,102 +10,69 @@ exports.getTechFrequency = asyncHandler(async (req, res) => {
     const technologiesQuery = db.prepare("SELECT tech_type FROM tech_skill");
     const technologies = technologiesQuery.all();
 
-    let techPopularity = {};
+    let techPopularity = [];
     technologies.forEach((element) => {
       const tech = element["tech_type"];
-      if (tech in techPopularity) {
-        techPopularity[tech] = techPopularity[tech] + 1;
+      const isAdded = techPopularity.findIndex(
+        (element) => element["tech_type"] === tech
+      );
+
+      if (isAdded !== -1) {
+        techPopularity[isAdded]["count"] = techPopularity[isAdded]["count"] + 1;
       } else {
-        techPopularity[tech] = 1;
+        techPopularity.push({ ...element, count: 1 });
       }
     });
 
-    // normalize data
-    let normTechPop = {};
-    for (const tech in techPopularity) {
-      if (tech in normalizedTechData) {
-        if (tech in normTechPop) {
-          normTechPop[tech] = normTechPop[tech] + techPopularity[tech];
+    let normTechPop = [];
+    techPopularity.forEach((tech) => {
+      const techType = tech["tech_type"];
+      const isAdded = normTechPop.findIndex(
+        (element) => element["tech_type"] === techType
+      );
+
+      if (techType in normalizedTechData) {
+        if (isAdded !== -1) {
+          normTechPop[isAdded]["count"] =
+            normTechPop[isAdded]["count"] + tech["count"];
         } else {
-          normTechPop[tech] = techPopularity[tech];
+          normTechPop.push({ ...tech });
         }
       } else {
         for (const normalizedTech in normalizedTechData) {
           const rawData = normalizedTechData[normalizedTech];
-          if (rawData.includes(tech) && normalizedTech in normTechPop) {
-            normTechPop[normalizedTech] =
-              normTechPop[normalizedTech] + techPopularity[tech];
-          } else if (
-            rawData.includes(tech) &&
-            !(normalizedTech in normTechPop)
-          ) {
-            normTechPop[normalizedTech] = techPopularity[tech];
-          }
-        }
-      }
-    }
 
-    // filter
-    switch (category) {
-      case "cloud_platforms": {
-        const techList = techCategories[category];
-        for (const tech in normTechPop) {
-          if (!techList.includes(tech)) {
-            delete normTechPop[tech];
-          }
-        }
-        break;
-      }
-      case "databases": {
-        const techList = techCategories[category];
-        for (const tech in normTechPop) {
-          if (!techList.includes(tech)) {
-            delete normTechPop[tech];
-          }
-        }
-        break;
-      }
-      case "programming_languages": {
-        const techList = techCategories[category];
-        for (const tech in normTechPop) {
-          if (!techList.includes(tech)) {
-            delete normTechPop[tech];
-          }
-        }
-        break;
-      }
-      case "frameworks_and_libraries": {
-        const techList = techCategories[category];
-        for (const tech in normTechPop) {
-          if (!techList.includes(tech)) {
-            delete normTechPop[tech];
-          }
-        }
-        break;
-      }
-      case "tools": {
-        const techList = techCategories[category];
-        for (const tech in normTechPop) {
-          if (!techList.includes(tech)) {
-            delete normTechPop[tech];
-          }
-        }
-        break;
-      }
-      default:
-        break;
-    }
+          const isAddedNorm = normTechPop.findIndex(
+            (element) => element["tech_type"] === normalizedTech
+          );
 
-    // sort
-    let sortedEntries = Object.entries(normTechPop).sort((a, b) => {
-      return b[1] - a[1];
-    });
-    const sortedTechPop = {};
-    sortedEntries.forEach((element) => {
-      sortedTechPop[element[0]] = element[1];
+          if (rawData.includes(techType) && isAddedNorm !== -1) {
+            normTechPop[isAddedNorm]["count"] =
+              normTechPop[isAddedNorm]["count"] + tech["count"];
+          } else if (rawData.includes(techType) && isAddedNorm === -1) {
+            normTechPop.push({
+              ...tech,
+              tech_type: normalizedTech,
+            });
+          }
+        }
+      }
     });
 
-    res.status(200).json(sortedTechPop);
+    let filteredTechList = [...normTechPop];
+    if (category) {
+      const techList = techCategories[category];
+      filteredTechList = normTechPop.filter((element) => {
+        const techType = element["tech_type"];
+        return techList.includes(techType);
+      });
+    }
+
+    filteredTechList.sort((a, b) => {
+      return a["count"] - b["count"];
+    });
+
+    res.status(200).json(filteredTechList);
   } catch (error) {
     console.error(error);
     res.status(400).json({
