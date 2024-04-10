@@ -26,17 +26,18 @@ exports.getSalary = asyncHandler(async (req, res) => {
     const nullSalaryList = nullSalaryListQuery.all().flat();
 
     let frequencyDistribution = stat.getFrequencyDistribution(salaryList);
+    console.log(frequencyDistribution);
 
-    for (const salaryRange in frequencyDistribution) {
-      const [min, max] = salaryRange.split("-");
+    frequencyDistribution.forEach((distribution, index) => {
+      const [min, max] = distribution.range.split("-");
       let rangeCount = 0;
       salaryList.forEach((salary) => {
         if (salary >= Number(min) && salary <= max) {
           rangeCount += 1;
         }
       });
-      frequencyDistribution[salaryRange] = rangeCount;
-    }
+      frequencyDistribution[index].count = rangeCount;
+    });
 
     salaryDetails.undisclosed = nullSalaryList.length;
     salaryDetails.disclosed = frequencyDistribution;
