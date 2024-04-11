@@ -7,14 +7,20 @@ exports.getJobLocations = asyncHandler(async (req, res) => {
     const statement = db.prepare(
       "SELECT location, salary, date_scraped FROM job_data"
     );
+    // TODO: refactor entire block
     let jobs = statement.all();
 
     let locationData = {};
 
     let addedLocations = [];
-    jobs.forEach((job) => {
-      const province = job["location"].split(",")[0];
-      const salary = job["salary"];
+
+    for (let i = 0; i < jobs.length; i++) {
+      const province = jobs[i]["location"].split(",")[0];
+      const salary = jobs[i]["salary"];
+
+      if (province === "unspecified") {
+        continue;
+      }
 
       if (addedLocations.includes(province)) {
         locationData[province]["jobCount"] += 1;
@@ -28,7 +34,7 @@ exports.getJobLocations = asyncHandler(async (req, res) => {
         };
       }
       addedLocations.push(province);
-    });
+    }
 
     for (const province in locationData) {
       const salaryList = locationData[province]["medianSalary"].sort();
@@ -41,8 +47,19 @@ exports.getJobLocations = asyncHandler(async (req, res) => {
       }
     }
 
-    res.status(200).json(locationData);
+    let locationDataArray = [];
+    // turn into array
+    for (const jobKey in locationData) {
+      const newJob = {
+        location: jobKey,
+        jobCount: locationData[jobKey]["jobCount"],
+        medianSalary: locationData[jobKey]["medianSalary"],
+      };
+      locationDataArray.push(newJob);
+    }
+    res.status(200).json(locationDataArray);
   } catch (error) {
+    console.error(error);
     res.status(400).send("error");
   }
 });
