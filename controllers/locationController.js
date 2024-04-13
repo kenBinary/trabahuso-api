@@ -42,6 +42,8 @@ exports.getJobLocations = asyncHandler(async (req, res) => {
       if (salaryList.length === 2) {
         locationData[province]["medianSalary"] =
           (salaryList[0] + salaryList[1]) / 2;
+      } else if (salaryList.length === 0) {
+        locationData[province]["medianSalary"] = null;
       } else {
         locationData[province]["medianSalary"] = salaryList[mid];
       }
