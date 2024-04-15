@@ -17,13 +17,20 @@ const orderBy = ["asc", "desc"];
 exports.getTechFrequency = [
   query("category").isString().isIn(categories).trim().escape(),
   query("order").isAlpha().isIn(orderBy).trim().escape(),
+  query("limit").isNumeric().trim().escape(),
   asyncHandler(async (req, res) => {
     try {
-      const { category } = req.query;
+      // TODO: refactor entire code
       const validatedInputs = matchedData(req);
 
       const technologiesQuery = db.prepare("SELECT tech_type FROM tech_skill");
       const technologies = technologiesQuery.all();
+
+      const techData = {
+        data: [],
+        limitCount: 0,
+        totalCount: 0,
+      };
 
       let techPopularity = [];
       technologies.forEach((element) => {
@@ -77,18 +84,37 @@ exports.getTechFrequency = [
 
       let filteredTechList = [...normTechPop];
       if ("category" in validatedInputs) {
-        const techList = techCategories[category];
+        const techList = techCategories[validatedInputs.category];
         filteredTechList = normTechPop.filter((element) => {
           const techType = element["tech_type"];
           return techList.includes(techType);
         });
+        if ("order" in validatedInputs) {
+          switch (validatedInputs.order) {
+            case "asc":
+              filteredTechList.sort((a, b) => {
+                return a["count"] - b["count"];
+              });
+              break;
+            case "desc":
+              filteredTechList.sort((a, b) => {
+                return b["count"] - a["count"];
+              });
+              break;
+            default:
+              break;
+          }
+        }
       }
+      techData.data = filteredTechList;
 
-      filteredTechList.sort((a, b) => {
-        return a["count"] - b["count"];
-      });
+      techData.totalCount = filteredTechList.length;
+      if ("limit" in validatedInputs) {
+        techData.data = techData.data.slice(0, validatedInputs.limit);
+      }
+      techData.limitCount = techData.data.length;
 
-      res.status(200).json(filteredTechList);
+      res.status(200).json(techData);
     } catch (error) {
       console.error(error);
       res.status(400).json({
