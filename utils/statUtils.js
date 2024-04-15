@@ -42,6 +42,27 @@ function getFrequencyDistribution(data) {
   return frequencyDistributionList;
 }
 
+// takes array of values
+function getMedian(arr) {
+  const valueArray = arr.filter((value) => {
+    if (typeof Number(value) === "number" && !isNaN(Number(value))) {
+      return value;
+    }
+  });
+  if (valueArray.length === 0) {
+    return 0;
+  }
+  if (valueArray.length === 2) {
+    return (valueArray[0] + valueArray[1]) / 2;
+  }
+  const mid = Math.floor(valueArray.length / 2);
+  const median = valueArray.sort((a, b) => {
+    return a - b;
+  })[mid];
+  return median;
+}
+
 module.exports = {
   getFrequencyDistribution,
+  getMedian,
 };
