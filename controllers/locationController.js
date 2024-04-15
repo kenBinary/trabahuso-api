@@ -1,70 +1,93 @@
 require("dotenv").config();
+const { query, matchedData } = require("express-validator");
 const asyncHandler = require("express-async-handler");
 const db = require("../helpers/dbConnection");
+const { getMedian } = require("../utils/statUtils");
 
-exports.getJobLocations = asyncHandler(async (req, res) => {
-  try {
-    const statement = db.prepare(
-      "SELECT location, salary, date_scraped FROM job_data"
-    );
-    // TODO: refactor entire block
-    let jobs = statement.all();
+exports.getJobLocations = [
+  query("limit").isNumeric().escape().trim().toInt(),
+  query("sort").isAlpha().escape().trim(),
+  query("order").isAlpha().escape().trim(),
+  asyncHandler(async (req, res) => {
+    try {
+      const { sort, order } = req.query;
+      const validatedInputs = matchedData(req);
+      const statement = db.prepare(
+        "SELECT location, salary, date_scraped FROM job_data"
+      );
+      let jobs = statement.all();
 
-    let locationData = {};
-
-    let addedLocations = [];
-
-    for (let i = 0; i < jobs.length; i++) {
-      const province = jobs[i]["location"].split(",")[0];
-      const salary = jobs[i]["salary"];
-
-      if (province === "unspecified") {
-        continue;
-      }
-
-      if (addedLocations.includes(province)) {
-        locationData[province]["jobCount"] += 1;
-        if (salary) {
-          locationData[province]["medianSalary"].push(salary);
-        }
-      } else {
-        locationData[province] = {
-          jobCount: 1,
-          medianSalary: salary ? [salary] : [],
-        };
-      }
-      addedLocations.push(province);
-    }
-
-    for (const province in locationData) {
-      const salaryList = locationData[province]["medianSalary"].sort();
-      let mid = Math.floor(salaryList.length / 2);
-      if (salaryList.length === 2) {
-        locationData[province]["medianSalary"] =
-          (salaryList[0] + salaryList[1]) / 2;
-      } else if (salaryList.length === 0) {
-        locationData[province]["medianSalary"] = null;
-      } else {
-        locationData[province]["medianSalary"] = salaryList[mid];
-      }
-    }
-
-    let locationDataArray = [];
-    // turn into array
-    for (const jobKey in locationData) {
-      const newJob = {
-        location: jobKey,
-        jobCount: locationData[jobKey]["jobCount"],
-        medianSalary: locationData[jobKey]["medianSalary"],
+      const locationData = {
+        data: [],
+        limitCount: 0,
+        totalCount: 0,
       };
-      locationDataArray.push(newJob);
+
+      const addedLocations = {};
+      for (let i = 0; i < jobs.length; i++) {
+        const province = jobs[i]["location"].split(",")[0];
+        const salary = jobs[i]["salary"];
+
+        if (province === "unspecified") {
+          continue;
+        }
+
+        if (province in addedLocations) {
+          addedLocations[province]["job count"] += 1;
+          addedLocations[province]["median salary"].push(salary);
+        } else {
+          addedLocations[province] = {
+            location: province,
+            "job count": 1,
+            "median salary": [salary],
+          };
+        }
+      }
+
+      const jLMedian = Object.values(addedLocations).map((jobLocation) => {
+        return {
+          ...jobLocation,
+          "median salary": getMedian(jobLocation["median salary"]),
+        };
+      });
+      locationData.data = [...jLMedian];
+
+      locationData.totalCount = jLMedian.length;
+
+      const sortType = sort === "jobCount" ? "job count" : "median salary";
+      const orderType = order === "asc" ? order : "desc";
+
+      if (sort) {
+        switch (orderType) {
+          case "asc":
+            locationData.data.sort((a, b) => {
+              return a[sortType] - b[sortType];
+            });
+            break;
+          case "desc":
+            locationData.data.sort((a, b) => {
+              return b[sortType] - a[sortType];
+            });
+            break;
+          default:
+            break;
+        }
+      }
+
+      if ("limit" in validatedInputs) {
+        locationData.data = locationData.data.slice(0, validatedInputs.limit);
+      }
+      locationData.limitCount = locationData.data.length;
+
+      res.status(200).json(locationData);
+    } catch (error) {
+      console.error(error);
+      res.status(400).json({
+        message: "bad request",
+      });
     }
-    res.status(200).json(locationDataArray);
-  } catch (error) {
-    console.error(error);
-    res.status(400).send("error");
-  }
-});
+  }),
+];
 
 exports.getJobByProvince = asyncHandler(async (req, res) => {
   try {
