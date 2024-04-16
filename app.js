@@ -3,6 +3,8 @@ const express = require("express");
 const cookieParser = require("cookie-parser");
 const logger = require("morgan");
 const helmet = require("helmet");
+const cors = require("cors");
+require("dotenv").config();
 
 const jobsRouter = require("./routes/jobs");
 const locationsRouter = require("./routes/locations");
@@ -11,6 +13,11 @@ const techStackRouter = require("./routes/techStack");
 
 const app = express();
 
+const corsOptions = {
+  origin: process.env.DEV_ORIGIN,
+  method: "GET",
+};
+app.use(cors(corsOptions));
 app.use(helmet());
 app.use(logger("dev"));
 app.use(express.json());
