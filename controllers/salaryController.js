@@ -1,4 +1,3 @@
-require("dotenv").config();
 const asyncHandler = require("express-async-handler");
 const db = require("../helpers/dbConnection");
 const stat = require("../utils/statUtils");
@@ -26,7 +25,6 @@ exports.getSalary = asyncHandler(async (req, res) => {
     const nullSalaryList = nullSalaryListQuery.all().flat();
 
     let frequencyDistribution = stat.getFrequencyDistribution(salaryList);
-    console.log(frequencyDistribution);
 
     frequencyDistribution.forEach((distribution, index) => {
       const [min, max] = distribution.range.split("-");

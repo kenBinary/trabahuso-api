@@ -1,5 +1,4 @@
-require("dotenv").config();
-const { query, matchedData } = require("express-validator");
+const { query, matchedData, param } = require("express-validator");
 const asyncHandler = require("express-async-handler");
 const db = require("../helpers/dbConnection");
 const { getMedian } = require("../utils/statUtils");
@@ -89,63 +88,66 @@ exports.getJobLocations = [
   }),
 ];
 
-exports.getJobByProvince = asyncHandler(async (req, res) => {
-  try {
-    // TODO: filter by date scraped
-    let { province } = req.params;
+exports.getJobByProvince = [
+  param("province").isString().trim().escape(),
+  asyncHandler(async (req, res) => {
+    try {
+      // TODO: filter by date scraped
+      let { province } = req.params;
 
-    const wordSplit = province.split("-");
-    if (wordSplit.length > 0) {
-      province = wordSplit.join(" ");
+      const wordSplit = province.split("-");
+      if (wordSplit.length > 0) {
+        province = wordSplit.join(" ");
+      }
+
+      let jobDetail = {
+        location: "",
+        jobCount: 0,
+        medianSalary: 0,
+      };
+
+      const jobLocationQuery = db.prepare(
+        "select location from job_data where SUBSTR(location,0, instr(location, ',')) = ?;"
+      );
+      const jobLocation = jobLocationQuery.get(province.toUpperCase());
+      if (!jobLocation) {
+        throw new Error(`not found`, { cause: `(${province}) not found` });
+      }
+      jobDetail.location = jobLocation["location"];
+
+      const jobCountQuery = db.prepare(
+        "select count(location) as job_count from job_data where SUBSTR(location,0, instr(location, ',')) = ?;"
+      );
+      let job = jobCountQuery.get(province.toUpperCase());
+      jobDetail.jobCount = job.job_count;
+
+      const jobSalariesQuery = db.prepare(
+        "select salary from job_data where SUBSTR(location,0, instr(location, ',')) = ?;"
+      );
+      jobSalariesQuery.raw();
+      const salaryList = jobSalariesQuery
+        .all(province.toUpperCase())
+        .flat()
+        .sort();
+      jobSalariesQuery.raw(false);
+
+      if (salaryList.length === 2) {
+        jobDetail.medianSalary = (salaryList[0] + salaryList[1]) / 2;
+      } else {
+        jobDetail.medianSalary =
+          salaryList[Math.floor(salaryList.length - 1 / 2)];
+      }
+
+      res.status(200).json(jobDetail);
+    } catch (error) {
+      console.error(error.message);
+      if (error.message === "not found") {
+        res.status(404).json({
+          message: error.cause,
+        });
+      } else {
+        res.status(500).send("error");
+      }
     }
-
-    let jobDetail = {
-      location: "",
-      jobCount: 0,
-      medianSalary: 0,
-    };
-
-    const jobLocationQuery = db.prepare(
-      "select location from job_data where SUBSTR(location,0, instr(location, ',')) = ?;"
-    );
-    const jobLocation = jobLocationQuery.get(province.toUpperCase());
-    if (!jobLocation) {
-      throw new Error(`not found`, { cause: `(${province}) not found` });
-    }
-    jobDetail.location = jobLocation["location"];
-
-    const jobCountQuery = db.prepare(
-      "select count(location) as job_count from job_data where SUBSTR(location,0, instr(location, ',')) = ?;"
-    );
-    let job = jobCountQuery.get(province.toUpperCase());
-    jobDetail.jobCount = job.job_count;
-
-    const jobSalariesQuery = db.prepare(
-      "select salary from job_data where SUBSTR(location,0, instr(location, ',')) = ?;"
-    );
-    jobSalariesQuery.raw();
-    const salaryList = jobSalariesQuery
-      .all(province.toUpperCase())
-      .flat()
-      .sort();
-    jobSalariesQuery.raw(false);
-
-    if (salaryList.length === 2) {
-      jobDetail.medianSalary = (salaryList[0] + salaryList[1]) / 2;
-    } else {
-      jobDetail.medianSalary =
-        salaryList[Math.floor(salaryList.length - 1 / 2)];
-    }
-
-    res.status(200).json(jobDetail);
-  } catch (error) {
-    console.error(error.message);
-    if (error.message === "not found") {
-      res.status(404).json({
-        message: error.cause,
-      });
-    } else {
-      res.status(500).send("error");
-    }
-  }
-});
+  }),
+];
