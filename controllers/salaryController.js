@@ -1,6 +1,6 @@
 const asyncHandler = require("express-async-handler");
-const db = require("../helpers/dbConnection");
 const stat = require("../utils/statUtils");
+const client = require("../helpers/turso");
 
 exports.getSalary = asyncHandler(async (req, res) => {
   try {
@@ -9,20 +9,20 @@ exports.getSalary = asyncHandler(async (req, res) => {
       disclosed: null,
     };
 
-    const salaryListQuery = db.prepare(
+    const salaryListQuery = await client.execute(
       "SELECT salary FROM job_data where salary is not null"
     );
-    salaryListQuery.raw();
-    const salaryList = salaryListQuery
-      .all()
-      .flat()
-      .sort((a, b) => a - b);
+    const salaryList = salaryListQuery.rows
+      .map((salaryObj) => {
+        return salaryObj["salary"];
+      })
+      .sort((a, b) => {
+        return a - b;
+      });
 
-    const nullSalaryListQuery = db.prepare(
+    const nullSalaryListQuery = await client.execute(
       "SELECT salary FROM job_data where salary is null"
     );
-    nullSalaryListQuery.raw();
-    const nullSalaryList = nullSalaryListQuery.all().flat();
 
     let frequencyDistribution = stat.getFrequencyDistribution(salaryList);
 
@@ -37,7 +37,7 @@ exports.getSalary = asyncHandler(async (req, res) => {
       frequencyDistribution[index].count = rangeCount;
     });
 
-    salaryDetails.undisclosed = nullSalaryList.length;
+    salaryDetails.undisclosed = nullSalaryListQuery.rows.length;
     salaryDetails.disclosed = frequencyDistribution;
 
     res.status(200).json(salaryDetails);

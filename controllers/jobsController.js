@@ -1,6 +1,6 @@
 const asyncHandler = require("express-async-handler");
-const db = require("../helpers/dbConnection");
 const { query, matchedData } = require("express-validator");
+const client = require("../helpers/turso");
 
 exports.getJobs = [
   query("year").isInt().trim().escape(),
@@ -24,10 +24,11 @@ exports.getJobs = [
       };
       const validatedData = matchedData(req);
 
-      const statement = db.prepare(
+      const statement = await client.execute(
         "SELECT job_title, location, salary, job_level, date_scraped FROM job_data order by date_scraped desc"
       );
-      let jobs = statement.all();
+
+      let jobs = statement.rows;
 
       if ("year" in validatedData) {
         jobs = jobs.filter((job) => {

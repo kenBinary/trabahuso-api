@@ -1,7 +1,7 @@
 const { query, matchedData, param } = require("express-validator");
 const asyncHandler = require("express-async-handler");
-const db = require("../helpers/dbConnection");
 const { getMedian } = require("../utils/statUtils");
+const client = require("../helpers/turso");
 
 exports.getJobLocations = [
   query("limit").isNumeric().escape().trim().toInt(),
@@ -11,10 +11,11 @@ exports.getJobLocations = [
     try {
       const { sort, order } = req.query;
       const validatedInputs = matchedData(req);
-      const statement = db.prepare(
+
+      const statement = await client.execute(
         "SELECT location, salary, date_scraped FROM job_data"
       );
-      let jobs = statement.all();
+      let jobs = statement.rows;
 
       const locationData = {
         data: [],
@@ -106,30 +107,35 @@ exports.getJobByProvince = [
         medianSalary: 0,
       };
 
-      const jobLocationQuery = db.prepare(
-        "select location from job_data where SUBSTR(location,0, instr(location, ',')) = ?;"
-      );
-      const jobLocation = jobLocationQuery.get(province.toUpperCase());
+      const jobLocationQuery = await client.execute({
+        sql: "select location from job_data where SUBSTR(location,0, instr(location, ',')) = (:province);",
+        args: { province: province.toUpperCase() },
+      });
+      const jobLocation =
+        jobLocationQuery.rows.length > 0 ? jobLocationQuery.rows[0] : false;
+
       if (!jobLocation) {
         throw new Error(`not found`, { cause: `(${province}) not found` });
       }
       jobDetail.location = jobLocation["location"];
 
-      const jobCountQuery = db.prepare(
-        "select count(location) as job_count from job_data where SUBSTR(location,0, instr(location, ',')) = ?;"
-      );
-      let job = jobCountQuery.get(province.toUpperCase());
-      jobDetail.jobCount = job.job_count;
+      jobDetail.jobCount = jobLocationQuery.rows.length;
 
-      const jobSalariesQuery = db.prepare(
-        "select salary from job_data where SUBSTR(location,0, instr(location, ',')) = ?;"
-      );
-      jobSalariesQuery.raw();
-      const salaryList = jobSalariesQuery
-        .all(province.toUpperCase())
-        .flat()
-        .sort();
-      jobSalariesQuery.raw(false);
+      const jobSalariesQuery = await client.execute({
+        sql: "select salary from job_data where SUBSTR(location,0, instr(location, ',')) = (:province);",
+        args: { province: province.toUpperCase() },
+      });
+
+      const salaryList = jobSalariesQuery.rows
+        .map((salary) => {
+          return salary["salary"];
+        })
+        .sort((a, b) => {
+          return a - b;
+        })
+        .filter((salary) => {
+          return Boolean(salary);
+        });
 
       if (salaryList.length === 2) {
         jobDetail.medianSalary = (salaryList[0] + salaryList[1]) / 2;

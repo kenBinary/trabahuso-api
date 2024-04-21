@@ -1,7 +1,7 @@
 require("dotenv").config();
 const asyncHandler = require("express-async-handler");
-const db = require("../helpers/dbConnection");
 const { query, matchedData } = require("express-validator");
+const client = require("../helpers/turso");
 const normalizedTechData = require(`../${process.env.NORMALIZED_TECH_KEYWORDS}`);
 const techCategories = require(`../${process.env.TECH_CATEGORIES}`);
 
@@ -23,8 +23,10 @@ exports.getTechFrequency = [
       // TODO: refactor entire code
       const validatedInputs = matchedData(req);
 
-      const technologiesQuery = db.prepare("SELECT tech_type FROM tech_skill");
-      const technologies = technologiesQuery.all();
+      const technologiesQuery = await client.execute(
+        "SELECT tech_type FROM tech_skill"
+      );
+      const technologies = technologiesQuery.rows;
 
       const techData = {
         data: [],
