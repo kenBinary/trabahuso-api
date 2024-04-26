@@ -1,20 +1,20 @@
+require("dotenv").config();
 const createError = require("http-errors");
 const express = require("express");
 const cookieParser = require("cookie-parser");
 const logger = require("morgan");
 const helmet = require("helmet");
 const cors = require("cors");
-require("dotenv").config();
-
 const jobsRouter = require("./routes/jobs");
 const locationsRouter = require("./routes/locations");
 const salaryRouter = require("./routes/salary");
 const techStackRouter = require("./routes/techStack");
+const config = require("config");
 
 const app = express();
 
 const corsOptions = {
-  origin: process.env.DEV_ORIGIN,
+  origin: config.get("cors.origin"),
   method: "GET",
 };
 app.use(cors(corsOptions));

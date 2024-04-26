@@ -11,8 +11,8 @@ let http = require("http");
 /**
  * Get port from environment and store in Express.
  */
-
-let port = normalizePort(process.env.PORT || "3000");
+const config = require("config");
+let port = normalizePort(config.get("app.port") || "3000");
 app.set("port", port);
 
 /**

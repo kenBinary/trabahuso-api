@@ -2,8 +2,8 @@ require("dotenv").config();
 const asyncHandler = require("express-async-handler");
 const { query, matchedData } = require("express-validator");
 const client = require("../helpers/turso");
-const normalizedTechData = require(`../${process.env.NORMALIZED_TECH_KEYWORDS}`);
-const techCategories = require(`../${process.env.TECH_CATEGORIES}`);
+const normalizedTechData = require("../data/normalized_tech_keywords.json");
+const techCategories = require("../data/tech_categories.json");
 
 const categories = [
   "programming_languages",
