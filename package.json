@@ -7,7 +7,7 @@
     "devStart": "set NODE_ENV=development& nodemon ./bin/www"
   },
   "engines": {
-    "node": ">=16.0.0"
+    "node": ">=16.0.0 <=20.14.0"
   },
   "dependencies": {
     "@libsql/client": "^0.6.0",
