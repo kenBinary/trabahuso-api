@@ -2,7 +2,7 @@ require("dotenv").config();
 
 const production = {
   app: {
-    port: process.env.port,
+    port: process.env.PORT,
   },
   db: {
     url: process.env.TURSO_DATABASE_URL || "",
