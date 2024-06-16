@@ -3,8 +3,10 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "serverStart": "set NODE_ENV=production& node ./bin/www",
-    "devStart": "set NODE_ENV=development& nodemon ./bin/www"
+    "serverStart:pwsh": "set NODE_ENV=production& node ./bin/www",
+    "devStart:pwsh": "set NODE_ENV=development& nodemon ./bin/www",
+    "serverStart:bash": "export NODE_ENV=production && node ./bin/www",
+    "devStart:bash": "export NODE_ENV=development && nodemon ./bin/www"
   },
   "engines": {
     "node": ">=16.0.0 <=20.14.0"
