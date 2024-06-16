@@ -4,7 +4,7 @@ const development = {
     port: 3000,
   },
   db: {
-    url: `file:${process.env.SQLITE_DB_PATH}` || "file:./data/job_record.db",
+    url: `file:${process.env.SQLITE_DB_PATH}` || "file:./data/test.db",
     "auth-token": "",
   },
   cors: {
