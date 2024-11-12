@@ -1,0 +1,82 @@
+[
+  {
+    "job_data_id": "fff8b742-64aa-43fa-9b88-84bac11667c5",
+    "job_title": "Junior Front End Developer",
+    "location": "NATIONAL CAPITAL REGION, QUEZON CITY",
+    "salary": null,
+    "job_level": "junior",
+    "date_scraped": "2024-04-12"
+  },
+  {
+    "job_data_id": "ffedb90d-8da2-4e50-9711-6276a7768277",
+    "job_title": "Pega Developer",
+    "location": "CEBU, CEBU CITY",
+    "salary": 0,
+    "job_level": "",
+    "date_scraped": "2024-07-14"
+  },
+  {
+    "job_data_id": "ffd34a73-64d7-4a58-a514-4620f1759c23",
+    "job_title": "IT Operations & Cloud Engineer",
+    "location": "NATIONAL CAPITAL REGION, MAKATI CITY",
+    "salary": null,
+    "job_level": null,
+    "date_scraped": "2024-04-12"
+  },
+  {
+    "job_data_id": "ffcc4640-b12f-492d-868c-24d8bf429534",
+    "job_title": "Full Stack Developer",
+    "location": "NATIONAL CAPITAL REGION, MANILA",
+    "salary": 38000,
+    "job_level": "",
+    "date_scraped": "2024-07-14"
+  },
+  {
+    "job_data_id": "ff7c7133-e13c-4412-ae7b-d09b180b87eb",
+    "job_title": "Senior Full Stack Developer",
+    "location": "NATIONAL CAPITAL REGION, MAKATI CITY",
+    "salary": 65000,
+    "job_level": "senior",
+    "date_scraped": "2024-04-12"
+  },
+  {
+    "job_data_id": "fefca855-e76a-4359-8762-d741a6bb4333",
+    "job_title": "Senior Software Engineer (backend)",
+    "location": "NATIONAL CAPITAL REGION, PASIG CITY",
+    "salary": null,
+    "job_level": "senior",
+    "date_scraped": "2024-04-12"
+  },
+  {
+    "job_data_id": "fecaf1cd-c5e8-40dc-99af-67ba3de16215",
+    "job_title": "Senior Cloud Engineer",
+    "location": "NATIONAL CAPITAL REGION, PARAÑAQUE CITY",
+    "salary": 0,
+    "job_level": "senior",
+    "date_scraped": "2024-07-14"
+  },
+  {
+    "job_data_id": "feb132c8-d6eb-4a3b-ace6-9985c2cffb25",
+    "job_title": "DevOps Engineer",
+    "location": "NATIONAL CAPITAL REGION, QUEZON CITY",
+    "salary": 100000,
+    "job_level": null,
+    "date_scraped": "2024-04-12"
+  },
+  {
+    "job_data_id": "feab9d0c-0e10-43a7-8337-3367b77e0daf",
+    "job_title": "Full Stack Developer",
+    "location": "remote",
+    "salary": 55000,
+    "job_level": "",
+    "date_scraped": "2024-07-14"
+  },
+  {
+    "job_data_id": "fe9b6dc2-6a8a-4da7-9ebd-eef266388f6c",
+    "job_title": "Software Engineer II",
+    "location": "remote",
+    "salary": 35000,
+    "job_level": null,
+    "date_scraped": "2024-03-29"
+  }
+]

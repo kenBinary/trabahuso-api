@@ -1,0 +1,407 @@
+[
+  {
+    "tech_stack_id": "d356eadf-7ff2-4be8-bdf2-9713e8b76a2c",
+    "job_data_id": "fe9b6dc2-6a8a-4da7-9ebd-eef266388f6c",
+    "tech_type": "docker"
+  },
+  {
+    "tech_stack_id": "cc392d1f-6a82-4cc0-8744-42949665f1ef",
+    "job_data_id": "fe9b6dc2-6a8a-4da7-9ebd-eef266388f6c",
+    "tech_type": "git"
+  },
+  {
+    "tech_stack_id": "4a2a5a7e-0bf0-479a-9677-4e06d808ef4d",
+    "job_data_id": "fe9b6dc2-6a8a-4da7-9ebd-eef266388f6c",
+    "tech_type": "javascript"
+  },
+  {
+    "tech_stack_id": "ff2ab5f3-179d-41f6-b63c-1b6ced02b989",
+    "job_data_id": "fe9b6dc2-6a8a-4da7-9ebd-eef266388f6c",
+    "tech_type": "laravel"
+  },
+  {
+    "tech_stack_id": "670cdc5d-8ed0-41d4-b26f-7410201f0ef7",
+    "job_data_id": "fe9b6dc2-6a8a-4da7-9ebd-eef266388f6c",
+    "tech_type": "mysql"
+  },
+  {
+    "tech_stack_id": "bdb93269-1f71-4e07-b866-5801e093f42d",
+    "job_data_id": "fe9b6dc2-6a8a-4da7-9ebd-eef266388f6c",
+    "tech_type": "php"
+  },
+  {
+    "tech_stack_id": "fe08b51d-34cd-4b83-98e4-59c4bab78ed5",
+    "job_data_id": "fe9b6dc2-6a8a-4da7-9ebd-eef266388f6c",
+    "tech_type": "sql"
+  },
+  {
+    "tech_stack_id": "0572aa4b-5015-4872-9263-b173adde92d3",
+    "job_data_id": "fff8b742-64aa-43fa-9b88-84bac11667c5",
+    "tech_type": "angular"
+  },
+  {
+    "tech_stack_id": "dde4a5f5-6c9f-4575-8f92-ee29b1f1ef81",
+    "job_data_id": "fff8b742-64aa-43fa-9b88-84bac11667c5",
+    "tech_type": "css"
+  },
+  {
+    "tech_stack_id": "7518c510-2fa4-49df-83c0-8869e9336413",
+    "job_data_id": "fff8b742-64aa-43fa-9b88-84bac11667c5",
+    "tech_type": "git"
+  },
+  {
+    "tech_stack_id": "9466749e-9165-421b-bfed-5232871e4ce3",
+    "job_data_id": "fff8b742-64aa-43fa-9b88-84bac11667c5",
+    "tech_type": "html"
+  },
+  {
+    "tech_stack_id": "902a572c-2f8d-4c31-815d-dc5f3d7d7318",
+    "job_data_id": "fff8b742-64aa-43fa-9b88-84bac11667c5",
+    "tech_type": "javascript"
+  },
+  {
+    "tech_stack_id": "ba501d7c-7c86-40c0-ae94-16c54f5a43c0",
+    "job_data_id": "fff8b742-64aa-43fa-9b88-84bac11667c5",
+    "tech_type": "js"
+  },
+  {
+    "tech_stack_id": "021da0bb-212b-4f4a-b096-df64de1f37b5",
+    "job_data_id": "fff8b742-64aa-43fa-9b88-84bac11667c5",
+    "tech_type": "nextjs"
+  },
+  {
+    "tech_stack_id": "814eb7cc-c8ca-4a02-83f6-a22b920fe88f",
+    "job_data_id": "fff8b742-64aa-43fa-9b88-84bac11667c5",
+    "tech_type": "node.js"
+  },
+  {
+    "tech_stack_id": "22870ec5-f66c-4b9f-a231-02eab62855fc",
+    "job_data_id": "fff8b742-64aa-43fa-9b88-84bac11667c5",
+    "tech_type": "react"
+  },
+  {
+    "tech_stack_id": "bf335203-9d86-431b-931d-79a797fe02a1",
+    "job_data_id": "fff8b742-64aa-43fa-9b88-84bac11667c5",
+    "tech_type": "react native"
+  },
+  {
+    "tech_stack_id": "a2667264-5b17-447f-8d3f-30487d63ad43",
+    "job_data_id": "fff8b742-64aa-43fa-9b88-84bac11667c5",
+    "tech_type": "reactjs"
+  },
+  {
+    "tech_stack_id": "46869e9d-1551-45aa-913a-5acbdb5de522",
+    "job_data_id": "fff8b742-64aa-43fa-9b88-84bac11667c5",
+    "tech_type": "tailwind"
+  },
+  {
+    "tech_stack_id": "93cf36d8-2fbc-4711-b070-db580960fcea",
+    "job_data_id": "fff8b742-64aa-43fa-9b88-84bac11667c5",
+    "tech_type": "typescript"
+  },
+  {
+    "tech_stack_id": "2550d0e4-a9d4-4860-8e14-90cc478a456c",
+    "job_data_id": "fff8b742-64aa-43fa-9b88-84bac11667c5",
+    "tech_type": "vue"
+  },
+  {
+    "tech_stack_id": "934c30aa-7d78-4070-8d2d-c0b9e1679e96",
+    "job_data_id": "ff7c7133-e13c-4412-ae7b-d09b180b87eb",
+    "tech_type": "css3"
+  },
+  {
+    "tech_stack_id": "d8c94dcc-5f4b-4615-a675-700bc8a079eb",
+    "job_data_id": "ff7c7133-e13c-4412-ae7b-d09b180b87eb",
+    "tech_type": "html5"
+  },
+  {
+    "tech_stack_id": "ee71047c-d57c-4653-b942-9c74351d1cdd",
+    "job_data_id": "ff7c7133-e13c-4412-ae7b-d09b180b87eb",
+    "tech_type": "javascript"
+  },
+  {
+    "tech_stack_id": "7730de98-3928-4e88-b958-204fd92e4581",
+    "job_data_id": "ff7c7133-e13c-4412-ae7b-d09b180b87eb",
+    "tech_type": "js"
+  },
+  {
+    "tech_stack_id": "b76b3501-b745-4a57-bbb9-78fecba40216",
+    "job_data_id": "ff7c7133-e13c-4412-ae7b-d09b180b87eb",
+    "tech_type": "laravel"
+  },
+  {
+    "tech_stack_id": "8658908d-ec0b-4f37-82da-0046d4a79c9b",
+    "job_data_id": "ff7c7133-e13c-4412-ae7b-d09b180b87eb",
+    "tech_type": "php"
+  },
+  {
+    "tech_stack_id": "ea50a3c0-8345-42d7-9ae1-e1c7772e5a26",
+    "job_data_id": "ff7c7133-e13c-4412-ae7b-d09b180b87eb",
+    "tech_type": "react"
+  },
+  {
+    "tech_stack_id": "1cb8a817-9306-404f-8aba-0e4b766db4ec",
+    "job_data_id": "ff7c7133-e13c-4412-ae7b-d09b180b87eb",
+    "tech_type": "react.js"
+  },
+  {
+    "tech_stack_id": "977225fa-c976-4f67-9c5c-33b613af3187",
+    "job_data_id": "ffd34a73-64d7-4a58-a514-4620f1759c23",
+    "tech_type": "aws"
+  },
+  {
+    "tech_stack_id": "4f6c49c0-3fde-4707-ab4a-a085d31b60df",
+    "job_data_id": "ffd34a73-64d7-4a58-a514-4620f1759c23",
+    "tech_type": "azure"
+  },
+  {
+    "tech_stack_id": "3dab32e1-4824-4f7e-9e6c-2b3b54d28aa5",
+    "job_data_id": "ffd34a73-64d7-4a58-a514-4620f1759c23",
+    "tech_type": "google cloud"
+  },
+  {
+    "tech_stack_id": "f54e6ddb-8dc6-4344-b6db-bc152e09fc1e",
+    "job_data_id": "feb132c8-d6eb-4a3b-ace6-9985c2cffb25",
+    "tech_type": "aws"
+  },
+  {
+    "tech_stack_id": "2cf7f210-9335-4931-9ba1-50562565f0f0",
+    "job_data_id": "feb132c8-d6eb-4a3b-ace6-9985c2cffb25",
+    "tech_type": "docker"
+  },
+  {
+    "tech_stack_id": "109f77cb-2ef1-45ed-a42c-07c4be456bbb",
+    "job_data_id": "feb132c8-d6eb-4a3b-ace6-9985c2cffb25",
+    "tech_type": "github"
+  },
+  {
+    "tech_stack_id": "aec2094c-b0b1-43bc-92c6-c2bee3836981",
+    "job_data_id": "feb132c8-d6eb-4a3b-ace6-9985c2cffb25",
+    "tech_type": "java"
+  },
+  {
+    "tech_stack_id": "ecad0a3f-9d0f-48d1-9d4d-4af82329f13f",
+    "job_data_id": "feb132c8-d6eb-4a3b-ace6-9985c2cffb25",
+    "tech_type": "kubernetes"
+  },
+  {
+    "tech_stack_id": "e6b43fc1-580f-4b7f-b49f-24c540cc3f21",
+    "job_data_id": "feb132c8-d6eb-4a3b-ace6-9985c2cffb25",
+    "tech_type": "python"
+  },
+  {
+    "tech_stack_id": "f2f22220-2b23-421e-a3fe-f31b26487171",
+    "job_data_id": "feb132c8-d6eb-4a3b-ace6-9985c2cffb25",
+    "tech_type": "vuejs"
+  },
+  {
+    "tech_stack_id": "dcc98185-d0c8-4a74-976e-f2f6b4a51340",
+    "job_data_id": "fefca855-e76a-4359-8762-d741a6bb4333",
+    "tech_type": "aws"
+  },
+  {
+    "tech_stack_id": "1c5ce0db-6323-4516-9fad-698b7cc09369",
+    "job_data_id": "fefca855-e76a-4359-8762-d741a6bb4333",
+    "tech_type": "azure"
+  },
+  {
+    "tech_stack_id": "d0002a61-1208-4058-a0e2-b7a4171f1ca9",
+    "job_data_id": "fefca855-e76a-4359-8762-d741a6bb4333",
+    "tech_type": "docker"
+  },
+  {
+    "tech_stack_id": "dd1ca2b4-a5d3-43f4-a60c-6d657e24eca3",
+    "job_data_id": "fefca855-e76a-4359-8762-d741a6bb4333",
+    "tech_type": "git"
+  },
+  {
+    "tech_stack_id": "ec7e9df8-f685-4387-a097-eedf899967e4",
+    "job_data_id": "fefca855-e76a-4359-8762-d741a6bb4333",
+    "tech_type": "java"
+  },
+  {
+    "tech_stack_id": "fe540379-9a1a-4dfa-9289-e82bc874ef45",
+    "job_data_id": "fefca855-e76a-4359-8762-d741a6bb4333",
+    "tech_type": "jenkins"
+  },
+  {
+    "tech_stack_id": "7d9f6709-cf55-4079-a7a7-3f64d02004b9",
+    "job_data_id": "fefca855-e76a-4359-8762-d741a6bb4333",
+    "tech_type": "kubernetes"
+  },
+  {
+    "tech_stack_id": "eb5e1f80-34f3-4d7f-bfc8-755934da93d7",
+    "job_data_id": "fefca855-e76a-4359-8762-d741a6bb4333",
+    "tech_type": "spring"
+  },
+  {
+    "tech_stack_id": "cdab7210-5366-4df3-bb24-84dd652d7394",
+    "job_data_id": "fefca855-e76a-4359-8762-d741a6bb4333",
+    "tech_type": "spring boot"
+  },
+  {
+    "tech_stack_id": "e8c31c58-029b-44d4-b7e7-b8ed669b5a40",
+    "job_data_id": "ffcc4640-b12f-492d-868c-24d8bf429534",
+    "tech_type": "angular"
+  },
+  {
+    "tech_stack_id": "53b5597b-f170-4a4b-b6b8-8ed9535ee067",
+    "job_data_id": "ffcc4640-b12f-492d-868c-24d8bf429534",
+    "tech_type": "css"
+  },
+  {
+    "tech_stack_id": "6cda06e8-4dc0-46cc-8103-7a6c2b669232",
+    "job_data_id": "ffcc4640-b12f-492d-868c-24d8bf429534",
+    "tech_type": "html"
+  },
+  {
+    "tech_stack_id": "afae1186-42c1-4155-b5c9-508131578e89",
+    "job_data_id": "ffcc4640-b12f-492d-868c-24d8bf429534",
+    "tech_type": "java"
+  },
+  {
+    "tech_stack_id": "4d30d1ad-dcb6-42ee-8299-eb6428f2b77b",
+    "job_data_id": "ffcc4640-b12f-492d-868c-24d8bf429534",
+    "tech_type": "javascript"
+  },
+  {
+    "tech_stack_id": "14b092e5-5852-4caf-bc99-f4a1f74dffb6",
+    "job_data_id": "ffcc4640-b12f-492d-868c-24d8bf429534",
+    "tech_type": "jquery"
+  },
+  {
+    "tech_stack_id": "7ec3c9a7-9a35-48b0-b24b-47879c0f9dfb",
+    "job_data_id": "ffcc4640-b12f-492d-868c-24d8bf429534",
+    "tech_type": "js"
+  },
+  {
+    "tech_stack_id": "13e2d6ef-31c0-496a-81ae-f6c06bd9754c",
+    "job_data_id": "ffcc4640-b12f-492d-868c-24d8bf429534",
+    "tech_type": "mongodb"
+  },
+  {
+    "tech_stack_id": "a2460b48-fa2c-48db-9a74-72c9e310ce28",
+    "job_data_id": "ffcc4640-b12f-492d-868c-24d8bf429534",
+    "tech_type": "mysql"
+  },
+  {
+    "tech_stack_id": "cc491a76-1511-4b89-a89e-96756a18a7ba",
+    "job_data_id": "ffcc4640-b12f-492d-868c-24d8bf429534",
+    "tech_type": "node.js"
+  },
+  {
+    "tech_stack_id": "c167d149-ee47-4f73-866c-9e4102ef1e2b",
+    "job_data_id": "ffcc4640-b12f-492d-868c-24d8bf429534",
+    "tech_type": "python"
+  },
+  {
+    "tech_stack_id": "ce91845b-54fd-4ac4-8ccb-83b6baaacdde",
+    "job_data_id": "ffcc4640-b12f-492d-868c-24d8bf429534",
+    "tech_type": "react"
+  },
+  {
+    "tech_stack_id": "2c4977e9-d9a0-4033-84ee-cd3715ca1123",
+    "job_data_id": "feab9d0c-0e10-43a7-8337-3367b77e0daf",
+    "tech_type": "bootstrap"
+  },
+  {
+    "tech_stack_id": "3d0fbb92-3f87-4b42-a46a-0742bec9e0dc",
+    "job_data_id": "feab9d0c-0e10-43a7-8337-3367b77e0daf",
+    "tech_type": "css"
+  },
+  {
+    "tech_stack_id": "4a98180f-0d42-4a66-b1b8-525b35dd51e3",
+    "job_data_id": "feab9d0c-0e10-43a7-8337-3367b77e0daf",
+    "tech_type": "html"
+  },
+  {
+    "tech_stack_id": "fe16ecfb-fb2d-476b-b592-9dde0668008d",
+    "job_data_id": "feab9d0c-0e10-43a7-8337-3367b77e0daf",
+    "tech_type": "javascript"
+  },
+  {
+    "tech_stack_id": "00474d6b-c6aa-4165-8f90-daf5171a3f81",
+    "job_data_id": "feab9d0c-0e10-43a7-8337-3367b77e0daf",
+    "tech_type": "laravel"
+  },
+  {
+    "tech_stack_id": "5737e59e-d261-4839-b190-49b36af27ece",
+    "job_data_id": "feab9d0c-0e10-43a7-8337-3367b77e0daf",
+    "tech_type": "mysql"
+  },
+  {
+    "tech_stack_id": "de672dd9-7ca9-4121-a68a-61724f4cc86b",
+    "job_data_id": "feab9d0c-0e10-43a7-8337-3367b77e0daf",
+    "tech_type": "php"
+  },
+  {
+    "tech_stack_id": "438e4080-5a6e-40d4-be4b-99ebd2112ef4",
+    "job_data_id": "fecaf1cd-c5e8-40dc-99af-67ba3de16215",
+    "tech_type": "azure"
+  },
+  {
+    "tech_stack_id": "1a321701-6398-4384-8c7d-3c55995bb1c5",
+    "job_data_id": "fecaf1cd-c5e8-40dc-99af-67ba3de16215",
+    "tech_type": "docker"
+  },
+  {
+    "tech_stack_id": "7a69e2ad-e515-4d70-8ba1-fecccdadc212",
+    "job_data_id": "fecaf1cd-c5e8-40dc-99af-67ba3de16215",
+    "tech_type": "gcp"
+  },
+  {
+    "tech_stack_id": "cf77a7ca-2ed3-43dc-a425-4dd374eaed60",
+    "job_data_id": "fecaf1cd-c5e8-40dc-99af-67ba3de16215",
+    "tech_type": "go"
+  },
+  {
+    "tech_stack_id": "b8253316-9f51-405e-8780-68b50177d20e",
+    "job_data_id": "fecaf1cd-c5e8-40dc-99af-67ba3de16215",
+    "tech_type": "jira"
+  },
+  {
+    "tech_stack_id": "ec53cb7f-b3ea-4cdc-886f-e48c8a78362e",
+    "job_data_id": "fecaf1cd-c5e8-40dc-99af-67ba3de16215",
+    "tech_type": "kubernetes"
+  },
+  {
+    "tech_stack_id": "7e7bfdd2-8325-4d2b-a34a-c4b688f25043",
+    "job_data_id": "fecaf1cd-c5e8-40dc-99af-67ba3de16215",
+    "tech_type": "powershell"
+  },
+  {
+    "tech_stack_id": "1b000c7d-a976-464e-8a9a-bf7012e69a17",
+    "job_data_id": "ffedb90d-8da2-4e50-9711-6276a7768277",
+    "tech_type": "angular"
+  },
+  {
+    "tech_stack_id": "30dae6af-38a5-4f74-9e9d-a5752df30307",
+    "job_data_id": "ffedb90d-8da2-4e50-9711-6276a7768277",
+    "tech_type": "css"
+  },
+  {
+    "tech_stack_id": "b20843ce-3870-4b96-9ecd-c046ecdac86e",
+    "job_data_id": "ffedb90d-8da2-4e50-9711-6276a7768277",
+    "tech_type": "html5"
+  },
+  {
+    "tech_stack_id": "89b3be3f-5d48-4583-bba6-3c16a1a423be",
+    "job_data_id": "ffedb90d-8da2-4e50-9711-6276a7768277",
+    "tech_type": "java"
+  },
+  {
+    "tech_stack_id": "3f07443e-e7ab-4a4b-8d36-7a64ea7082b7",
+    "job_data_id": "ffedb90d-8da2-4e50-9711-6276a7768277",
+    "tech_type": "javascript"
+  },
+  {
+    "tech_stack_id": "e9b794b6-bcc1-4219-8bb7-af179d5d8012",
+    "job_data_id": "ffedb90d-8da2-4e50-9711-6276a7768277",
+    "tech_type": "jquery"
+  },
+  {
+    "tech_stack_id": "16372983-59c9-46e8-a42f-205dc177c4ff",
+    "job_data_id": "ffedb90d-8da2-4e50-9711-6276a7768277",
+    "tech_type": "js"
+  }
+]
