@@ -8,20 +8,12 @@ namespace trabahuso_api.Models
 {
     public class Job
     {
-
-        [JsonPropertyName("job_data_id")]
-        public required string JobDataId { get; set; }
-        [JsonPropertyName("job_title")]
-        public required string JobTitle { get; set; }
-        [JsonPropertyName("location")]
-        public required string Location { get; set; }
-        [JsonPropertyName("salary")]
-        public int? Salary { get; set; }
-        [JsonPropertyName("job_level")]
+        public string? JobDataId { get; set; }
+        public string? JobTitle { get; set; }
+        public string? Location { get; set; }
+        public double? Salary { get; set; }
         public string? JobLevel { get; set; }
-        [JsonPropertyName("date_scraped")]
-        public required string DateScraped { get; set; }
+        public string? DateScraped { get; set; }
         public List<TechSkill> TechSkills { get; set; } = [];
-
     }
 }
