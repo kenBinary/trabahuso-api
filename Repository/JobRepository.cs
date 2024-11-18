@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -19,8 +20,10 @@ namespace trabahuso_api.Repository
         private readonly IConfiguration _config;
         private readonly TursoDatabaseSettings? _dbSettings;
         private readonly HttpClient _httpClient;
-        public JobRepository(IConfiguration config)
+        private readonly ISqliteQueryCompiler _sqliteCompiler;
+        public JobRepository(IConfiguration config, ISqliteQueryCompiler sqliteCompiler)
         {
+            _sqliteCompiler = sqliteCompiler;
             _config = config;
             _dbSettings = _config.GetSection("TursoDatabase").Get<TursoDatabaseSettings>();
             _httpClient = new HttpClient()
@@ -41,6 +44,40 @@ namespace trabahuso_api.Repository
         {
             List<Job> jobs = [];
 
+            var queryBuilder = new Query("job_data");
+
+            queryBuilder.When(
+                !queryParams.RetrieveAll,
+                queryBuilder => queryBuilder.Offset(queryParams.PageNumber)
+            );
+
+            queryBuilder.When(
+                 !queryParams.RetrieveAll,
+                 queryBuilder => queryBuilder.Limit(queryParams.PageSize)
+             );
+
+            queryBuilder.When(
+               queryParams.SortBy != null && !queryParams.IsDescending,
+               queryBuilder => queryBuilder.OrderBy(queryParams.SortBy)
+            );
+
+            queryBuilder.When(
+               queryParams.SortBy != null && queryParams.IsDescending,
+               queryBuilder => queryBuilder.OrderByDesc(queryParams.SortBy)
+            );
+
+            // TODO: implement filtering of fields
+            // if (queryParams.Includes.Count() > 0)
+            // {
+            //     foreach (var field in queryParams.Includes)
+            //     {
+            //         queryBuilder.Select(field);
+            //     }
+            // }
+
+            var compiledQuery = _sqliteCompiler.Compile(queryBuilder);
+            Console.WriteLine(compiledQuery.ToString());
+
             using HttpResponseMessage response = await _httpClient.PostAsJsonAsync(
                 "",
                 new RequestData(
@@ -48,7 +85,8 @@ namespace trabahuso_api.Repository
                         new Request(
                             "execute",
                             new Statement(
-                                "select * from job_data where salary > 10 limit 10"
+                                compiledQuery.RawSql,
+                                compiledQuery.Bindings.ToSqlArguments()
                             )
                         )
                     ]
