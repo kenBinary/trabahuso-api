@@ -35,9 +35,58 @@ namespace trabahuso_api.Repository
             };
         }
 
-        public Job GetJob(string jobDataId)
+        public async Task<Job?> GetByIdAsync(string jobDataId)
         {
-            throw new NotImplementedException();
+
+            var queryBuilder = new Query("job_data");
+            queryBuilder.Where("job_data_id", jobDataId);
+
+            var compiledQuery = _sqliteCompiler.Compile(queryBuilder);
+
+            Console.WriteLine(compiledQuery.RawSql);
+            foreach (var item in compiledQuery.Bindings)
+            {
+                Console.WriteLine(item);
+            }
+
+            using HttpResponseMessage response = await _httpClient.PostAsJsonAsync(
+                "",
+                new RequestData(
+                    [
+                        new Request(
+                            "execute",
+                            new Statement(
+                                compiledQuery.RawSql,
+                                compiledQuery.Bindings.ToSqlArguments()
+                            )
+                        )
+                    ]
+                )
+            );
+
+
+            if (!response.IsSuccessStatusCode)
+            {
+                return null;
+            }
+
+            string stringJson = await response.Content.ReadAsStringAsync();
+            TursoResponse? responseObject = JsonSerializer.Deserialize<TursoResponse>(stringJson);
+
+            if (responseObject == null)
+            {
+                Console.WriteLine("Failed to Deserialize");
+                return null;
+            }
+
+            List<ResultRow>? row = responseObject.GetFirstResult()?.Response?.Result?.GetFirstRow();
+
+            if (row == null)
+            {
+                return null;
+            }
+
+            return row.ToJob();
         }
 
         public async Task<List<Job>> GetAllAsync(QueryObject queryParams)
