@@ -19,6 +19,19 @@ namespace trabahuso_api.Controllers
             _jobRepository = jobRepository;
         }
 
+        [HttpGet("{job-id}")]
+        public async Task<ActionResult<string>> GetJob([FromRoute(Name = "job-id")] string jobId)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var job = await _jobRepository.GetByIdAsync(jobId);
+
+            return Ok(job);
+        }
+
         [HttpGet]
         public async Task<IActionResult> GetJobs([FromQuery] QueryObject queryParams)
         {
