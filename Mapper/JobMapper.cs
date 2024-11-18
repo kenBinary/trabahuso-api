@@ -31,5 +31,21 @@ namespace trabahuso_api.Mapper
             return jobs;
         }
 
+        public static Job ToJob(this List<ResultRow> resultRow)
+        {
+
+            bool isInt = int.TryParse(resultRow[3].Value, out int Salary);
+
+            return new Job()
+            {
+                JobDataId = resultRow[0].Value,
+                JobTitle = resultRow[1].Value,
+                Location = resultRow[2].Value,
+                Salary = isInt ? Salary : null,
+                JobLevel = resultRow[4].Value,
+                DateScraped = resultRow[5].Value
+            };
+        }
+
     }
 }
