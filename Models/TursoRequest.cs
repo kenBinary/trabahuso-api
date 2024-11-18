@@ -21,10 +21,10 @@ namespace trabahuso_api.Models
         [property: JsonPropertyName("sql")] string SqlQuery,
         [property: JsonPropertyName("args")]
             [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-            List<SqlArguments>? Arguments = null
+            List<SqlArgument>? Arguments = null
     );
 
-    public record SqlArguments(
+    public record SqlArgument(
         [property: JsonPropertyName("type")] string Type,
         [property: JsonPropertyName("value")] string Value
     );
