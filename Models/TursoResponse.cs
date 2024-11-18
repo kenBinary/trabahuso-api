@@ -61,6 +61,16 @@ namespace trabahuso_api.Models
         public int RowsWritten { get; set; }
         [JsonPropertyName("query_duration_ms")]
         public double QueryDurationMs { get; set; }
+
+        public List<ResultRow>? GetFirstRow()
+        {
+            if (TableRows.Count > 0)
+            {
+                return TableRows[0];
+            }
+
+            return null;
+        }
     }
 
     public record ResultColumns(
