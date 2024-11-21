@@ -19,7 +19,7 @@ namespace trabahuso_api.DTOs.Querries
         // public string[] Includes { get; set; } = [];
     }
 
-    public record TechSkillFilterse : QueryFilters
+    public record TechSkillFilters : QueryFilters
     {
 
     }
