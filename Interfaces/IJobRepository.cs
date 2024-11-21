@@ -10,6 +10,6 @@ namespace trabahuso_api.Interfaces
     public interface IJobRepository
     {
         Task<Job?> GetByIdAsync(string jobDataId);
-        Task<List<Job>> GetAllAsync(QueryObject queryParams);
+        Task<List<Job>> GetAllAsync(JobFilters jobFilters);
     }
 }

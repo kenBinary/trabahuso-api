@@ -33,7 +33,7 @@ namespace trabahuso_api.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetJobs([FromQuery] QueryObject queryParams)
+        public async Task<IActionResult> GetJobs([FromQuery] JobFilters jobFilters)
         {
 
             if (!ModelState.IsValid)
@@ -41,7 +41,7 @@ namespace trabahuso_api.Controllers
                 return BadRequest(ModelState);
             }
 
-            var jobs = await _jobRepository.GetAllAsync(queryParams);
+            var jobs = await _jobRepository.GetAllAsync(jobFilters);
 
             return Ok(jobs);
         }

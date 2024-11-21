@@ -43,7 +43,6 @@ namespace trabahuso_api.Repository
 
             var compiledQuery = _sqliteCompiler.Compile(queryBuilder);
 
-            Console.WriteLine(compiledQuery.RawSql);
             foreach (var item in compiledQuery.Bindings)
             {
                 Console.WriteLine(item);
@@ -89,30 +88,30 @@ namespace trabahuso_api.Repository
             return row.ToJob();
         }
 
-        public async Task<List<Job>> GetAllAsync(QueryObject queryParams)
+        public async Task<List<Job>> GetAllAsync(JobFilters jobFilters)
         {
             List<Job> jobs = [];
 
             var queryBuilder = new Query("job_data");
 
             queryBuilder.When(
-                !queryParams.RetrieveAll,
-                queryBuilder => queryBuilder.Offset(queryParams.PageNumber)
+                !jobFilters.RetrieveAll,
+                queryBuilder => queryBuilder.Offset(jobFilters.PageNumber)
             );
 
             queryBuilder.When(
-                 !queryParams.RetrieveAll,
-                 queryBuilder => queryBuilder.Limit(queryParams.PageSize)
+                 !jobFilters.RetrieveAll,
+                 queryBuilder => queryBuilder.Limit(jobFilters.PageSize)
              );
 
             queryBuilder.When(
-               queryParams.SortBy != null && !queryParams.IsDescending,
-               queryBuilder => queryBuilder.OrderBy(queryParams.SortBy)
+               jobFilters.SortBy != null && !jobFilters.IsDescending,
+               queryBuilder => queryBuilder.OrderBy(jobFilters.SortBy)
             );
 
             queryBuilder.When(
-               queryParams.SortBy != null && queryParams.IsDescending,
-               queryBuilder => queryBuilder.OrderByDesc(queryParams.SortBy)
+               jobFilters.SortBy != null && jobFilters.IsDescending,
+               queryBuilder => queryBuilder.OrderByDesc(jobFilters.SortBy)
             );
 
             // TODO: implement filtering of fields
