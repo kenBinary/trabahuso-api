@@ -7,7 +7,7 @@ using trabahuso_api.CustomAttributes;
 
 namespace trabahuso_api.DTOs.Querries
 {
-    public record QueryObject
+    public record QueryFilters
     {
         [AllowedValuesCustom(["job_data_id", "job_title", "location", "salary", "job_level", "date_scraped"])]
         public string? SortBy { get; set; }
@@ -20,4 +20,5 @@ namespace trabahuso_api.DTOs.Querries
         // TODO: implement filtering of fields
         // public string[] Includes { get; set; } = [];
     }
+
 }
