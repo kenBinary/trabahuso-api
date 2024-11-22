@@ -35,6 +35,7 @@ namespace trabahuso_api.Repository
             };
         }
 
+        // TODO: Write better error handling
         public async Task<Job?> GetByIdAsync(string jobDataId)
         {
 
@@ -42,11 +43,6 @@ namespace trabahuso_api.Repository
             queryBuilder.Where("job_data_id", jobDataId);
 
             var compiledQuery = _sqliteCompiler.Compile(queryBuilder);
-
-            foreach (var item in compiledQuery.Bindings)
-            {
-                Console.WriteLine(item);
-            }
 
             using HttpResponseMessage response = await _httpClient.PostAsJsonAsync(
                 "",
@@ -124,7 +120,6 @@ namespace trabahuso_api.Repository
             // }
 
             var compiledQuery = _sqliteCompiler.Compile(queryBuilder);
-            Console.WriteLine(compiledQuery.ToString());
 
             using HttpResponseMessage response = await _httpClient.PostAsJsonAsync(
                 "",
@@ -149,10 +144,10 @@ namespace trabahuso_api.Repository
             if (!response.IsSuccessStatusCode)
             {
                 Console.WriteLine(response.StatusCode);
+                return [];
             }
 
             string stringJson = await response.Content.ReadAsStringAsync();
-            // Console.WriteLine(stringJson);
             TursoResponse? responseObject = JsonSerializer.Deserialize<TursoResponse>(stringJson);
 
             if (responseObject == null)

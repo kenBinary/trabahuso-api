@@ -33,6 +33,7 @@ namespace trabahuso_api.Repository
         }
 
         // TODO: refactor tech_skill table to include categories
+        // TODO: write better error handling
         public async Task<List<TechSkill>> GetAllAsync(TechSkillFilters techSkillFilters)
         {
             var queryBuilder = new Query("tech_skill");

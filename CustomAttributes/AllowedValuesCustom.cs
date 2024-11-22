@@ -30,7 +30,6 @@ namespace trabahuso_api.CustomAttributes
 
             if (!Values.Contains(value))
             {
-                Console.WriteLine("no contain");
                 return new ValidationResult(GetErrorMessage());
             }
 
