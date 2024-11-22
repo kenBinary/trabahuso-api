@@ -4,8 +4,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
+using trabahuso_api.DTOs.Job;
 using trabahuso_api.DTOs.Querries;
 using trabahuso_api.Interfaces;
+using trabahuso_api.Mapper;
 
 namespace trabahuso_api.Controllers
 {
@@ -29,7 +31,12 @@ namespace trabahuso_api.Controllers
 
             var job = await _jobRepository.GetByIdAsync(jobId);
 
-            return Ok(job);
+            if (job == null)
+            {
+                return NotFound("Job Not Found");
+            }
+
+            return Ok(job.ToJobDto());
         }
 
         [HttpGet]
@@ -43,7 +50,9 @@ namespace trabahuso_api.Controllers
 
             var jobs = await _jobRepository.GetAllAsync(jobFilters);
 
-            return Ok(jobs);
+            var jobsDto = jobs.Select(job => job.ToJobDto()).ToList();
+
+            return Ok(jobsDto);
         }
     }
 }

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using trabahuso_api.DTOs.Job;
 using trabahuso_api.Models;
 
 namespace trabahuso_api.Mapper
@@ -45,6 +46,17 @@ namespace trabahuso_api.Mapper
                 JobLevel = resultRow[4].Value,
                 DateScraped = resultRow[5].Value
             };
+        }
+
+        public static JobDto ToJobDto(this Job job)
+        {
+            return new JobDto(
+                job.JobDataId,
+                job.JobTitle,
+                job.Location,
+                job.Salary,
+                job.JobLevel
+            );
         }
 
     }

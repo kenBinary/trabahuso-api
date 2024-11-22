@@ -7,9 +7,10 @@ using trabahuso_api.Models;
 namespace trabahuso_api.DTOs.Job
 {
     public record JobDto(
+        string? JobDataId,
         string? JobTitle,
         string? Location,
-        int? Salary,
+        double? Salary,
         string? JobLevel
     );
 }
