@@ -11,6 +11,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddScoped<IJobRepository, JobRepository>();
+builder.Services.AddScoped<ITechSkillRepository, TechSkillRepository>();
 builder.Services.AddScoped<ISqliteQueryCompiler, SqliteQueryCompiler>();
 
 var app = builder.Build();
