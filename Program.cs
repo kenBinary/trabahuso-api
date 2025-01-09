@@ -47,5 +47,6 @@ if (!app.Environment.IsDevelopment())
 app.MapControllers().RequireRateLimiting("fixed-by-ip");
 
 app.UseHttpsRedirection();
+app.UseStaticFiles();
 
 app.Run();
