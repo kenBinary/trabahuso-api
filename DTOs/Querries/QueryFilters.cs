@@ -12,7 +12,7 @@ namespace trabahuso_api.DTOs.Querries
     {
         public int PageNumber { get; set; } = 0;
         [Range(0, 25, ErrorMessage = "Page size exceeded, it must be between 0 and 25")]
-        public int PageSize { get; set; } = 25;
+        public int PageSize { get; set; } = 10;
         public bool RetrieveAll { get; set; } = false;
 
         // TODO: implement filtering of fields
