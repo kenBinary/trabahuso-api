@@ -31,4 +31,10 @@ namespace trabahuso_api.DTOs.Querries
         public bool IsDescending { get; set; } = false;
     }
 
+    public record LocationCountFilters : QueryFilters
+    {
+        public bool IsDescending { get; set; } = false;
+
+    }
+
 }
