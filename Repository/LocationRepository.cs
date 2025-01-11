@@ -43,6 +43,107 @@ namespace trabahuso_api.Repository
             };
         }
 
+        public async Task<List<LocationMedianSalaryDto>> GetLocationMedianSalary(LocationMedianSalaryFilters locationMedianSalaryFilters)
+        {
+            var queryBuilder = new Query("job_data")
+                        .SelectRaw("  CASE WHEN INSTR(location, ',') > 0 THEN SUBSTR(location, 1, INSTR(location, ',') - 1) ELSE location END AS province")
+                        .Select("salary")
+                        .WhereNotNull("salary")
+                        .OrderBy("province");
+
+            var compiledQuery = _sqliteCompiler.Compile(queryBuilder);
+
+            using HttpResponseMessage response = await _httpClient.PostAsJsonAsync(
+                "",
+                new RequestData(
+                    [
+                        new Request(
+                            "execute",
+                            new Statement(
+                                compiledQuery.RawSql,
+                                compiledQuery.Bindings.ToSqlArguments()
+                            )
+                        )
+                    ]
+                )
+            );
+
+            if (response == null)
+            {
+                return [];
+            }
+
+            if (!response.IsSuccessStatusCode)
+            {
+                Console.WriteLine(response.StatusCode);
+                return [];
+            }
+
+            string stringJson = await response.Content.ReadAsStringAsync();
+            TursoResponse? responseObject = JsonSerializer.Deserialize<TursoResponse>(stringJson);
+
+            if (responseObject == null)
+            {
+                Console.WriteLine("Failed to Deserialize");
+                return [];
+            }
+
+
+            TursoResponseParser tursoParser = new TursoResponseParser();
+
+            List<LocationMedianSalaryDto>? locationMedianSalaries = tursoParser.ParseLocationMedianSalary(responseObject);
+
+            if (locationMedianSalaries == null)
+            {
+                return [];
+            }
+
+            string currentProvince = "";
+            List<double> salaries = [];
+
+            List<LocationMedianSalaryDto> medianSalaries = [];
+
+            for (int i = 0; i < locationMedianSalaries.Count; i++)
+            {
+
+                LocationMedianSalaryDto data = locationMedianSalaries[i];
+
+                string previousProvince = i == 0 ? data.Location : locationMedianSalaries[i - 1].Location;
+                currentProvince = data.Location;
+
+                salaries.Add(data.Salary);
+
+                if (currentProvince != previousProvince)
+                {
+                    salaries.Sort();
+                    int middleIndex = salaries.Count / 2;
+                    double medianSalary = salaries.Count % 2 == 0 ? (salaries[middleIndex - 1] + salaries[middleIndex]) / 2.0 : salaries[salaries.Count / 2];
+
+                    medianSalaries.Add(new LocationMedianSalaryDto(currentProvince, medianSalary));
+                    currentProvince = "";
+                    salaries = [];
+                }
+
+            }
+
+            var medianSalariesQuery = from salary in medianSalaries select salary;
+            medianSalariesQuery = medianSalariesQuery.OrderBy(salary => salary.Salary);
+
+            if (locationMedianSalaryFilters.IsDescending)
+            {
+                medianSalariesQuery = medianSalariesQuery.OrderByDescending(salary => salary.Salary);
+            }
+
+            if (!locationMedianSalaryFilters.RetrieveAll)
+            {
+                medianSalariesQuery = medianSalariesQuery.
+                Skip(locationMedianSalaryFilters.PageNumber)
+                .Take(locationMedianSalaryFilters.PageSize);
+            }
+
+            return medianSalariesQuery.ToList();
+        }
+
         public async Task<List<LocationCountDto>> GetLocationsCount(LocationCountFilters locationCountFilters)
         {
             var queryBuilder = new Query("job_data")

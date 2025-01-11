@@ -37,4 +37,10 @@ namespace trabahuso_api.DTOs.Querries
 
     }
 
+    public record LocationMedianSalaryFilters : QueryFilters
+    {
+        public bool IsDescending { get; set; } = false;
+
+    }
+
 }

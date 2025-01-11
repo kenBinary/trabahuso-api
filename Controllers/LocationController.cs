@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using trabahuso_api.DTOs.Location;
 using trabahuso_api.DTOs.Querries;
 using trabahuso_api.Interfaces;
 
@@ -29,6 +30,19 @@ namespace trabahuso_api.Controllers
             var locationCount = await _locationRepository.GetLocationsCount(locationCountFilters);
 
             return Ok(locationCount);
+        }
+
+        [HttpGet("median")]
+        public async Task<IActionResult> GetLocationMedianSalary([FromQuery] LocationMedianSalaryFilters locationMedianSalaryFilters)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            List<LocationMedianSalaryDto> data = await _locationRepository.GetLocationMedianSalary(locationMedianSalaryFilters);
+
+            return Ok(data);
         }
 
     }

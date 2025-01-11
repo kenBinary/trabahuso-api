@@ -10,5 +10,6 @@ namespace trabahuso_api.Interfaces
     public interface ILocationRepository
     {
         Task<List<LocationCountDto>> GetLocationsCount(LocationCountFilters locationCountFilters);
+        Task<List<LocationMedianSalaryDto>> GetLocationMedianSalary(LocationMedianSalaryFilters locationMedianSalaryFilters);
     }
 }
