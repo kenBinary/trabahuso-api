@@ -85,7 +85,7 @@ namespace trabahuso_api.Repository
                     return [];
                 }
 
-                List<List<ResultRow>>? rows = responseObject.GetFirstResult()?.Response?.Result?.TableRows;
+                List<List<Row>>? rows = responseObject.GetFirstResult()?.Response?.Result?.Rows;
 
                 if (rows == null)
                 {
@@ -142,7 +142,7 @@ namespace trabahuso_api.Repository
                     return null;
                 }
 
-                List<ResultRow>? row = responseObject.GetFirstResult()?.Response?.Result?.GetFirstRow();
+                List<Row>? row = responseObject.GetFirstResult()?.Response?.Result?.GetFirstRow();
 
                 if (row == null)
                 {

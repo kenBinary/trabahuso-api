@@ -13,9 +13,9 @@ namespace trabahuso_api.Models
         [JsonPropertyName("base_url")]
         public string? BaseUrl { get; set; }
         [JsonPropertyName("results")]
-        public List<TursoResult> Results { get; set; } = [];
+        public List<Result> Results { get; set; } = [];
 
-        public TursoResult? GetFirstResult()
+        public Result? GetFirstResult()
         {
             if (Results.Count > 0)
             {
@@ -26,31 +26,42 @@ namespace trabahuso_api.Models
         }
     }
 
-    public class TursoResult
+    public class Result
     {
         [JsonPropertyName("type")]
         public required string Type { get; set; }
         [JsonPropertyName("response")]
-        public required TursoResultResponse Response { get; set; }
+        public Response? Response { get; set; }
+
+        [JsonPropertyName("error")]
+        public Error? Error { get; set; }
     }
 
-    public class TursoResultResponse
+    public class Error
+    {
+        [JsonPropertyName("message")]
+        public required string Message { get; set; }
+        [JsonPropertyName("code")]
+        public required string Code { get; set; }
+    }
+
+    public class Response
     {
         [JsonPropertyName("type")]
         public required string Type { get; set; }
         [JsonPropertyName("result")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        public TursoResponseResult? Result { get; set; }
+        public required ExecuteResult Result { get; set; }
     }
 
-    public class TursoResponseResult
+    public class ExecuteResult
     {
         [JsonPropertyName("cols")]
-        public List<ResultColumns> TableColumns { get; set; } = [];
+        public List<Column> Cols { get; set; } = [];
         [JsonPropertyName("rows")]
-        public List<List<ResultRow>> TableRows { get; set; } = [];
+        public List<List<Row>> Rows { get; set; } = [];
         [JsonPropertyName("affected_row_count")]
-        public int AffectedRows { get; set; }
+        public int AffectedRowCount { get; set; }
         [JsonPropertyName("last_insert_rowid")]
         public string? LastInsertRowId { get; set; }
         [JsonPropertyName("replication_index")]
@@ -62,23 +73,23 @@ namespace trabahuso_api.Models
         [JsonPropertyName("query_duration_ms")]
         public double QueryDurationMs { get; set; }
 
-        public List<ResultRow>? GetFirstRow()
+        public List<Row>? GetFirstRow()
         {
-            if (TableRows.Count > 0)
+            if (Rows.Count > 0)
             {
-                return TableRows[0];
+                return Rows[0];
             }
 
             return null;
         }
     }
 
-    public record ResultColumns(
+    public record Column(
         [property: JsonPropertyName("name")] string FieldName,
         [property: JsonPropertyName("decltype")] string DataType
     );
 
-    public record ResultRow(
+    public record Row(
         [property: JsonPropertyName("type")] string Type,
         [property: JsonPropertyName("value")]
         [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]

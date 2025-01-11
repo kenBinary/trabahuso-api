@@ -9,7 +9,7 @@ namespace trabahuso_api.Mapper
 {
     public static class JobMapper
     {
-        public static List<Job> ToJobs(this List<List<ResultRow>> resultRows)
+        public static List<Job> ToJobs(this List<List<Row>> resultRows)
         {
             List<Job> jobs = [];
             foreach (var resultRow in resultRows)
@@ -32,7 +32,7 @@ namespace trabahuso_api.Mapper
             return jobs;
         }
 
-        public static Job ToJob(this List<ResultRow> resultRow)
+        public static Job ToJob(this List<Row> resultRow)
         {
 
             bool isInt = int.TryParse(resultRow[3].Value, out int Salary);

@@ -9,15 +9,15 @@ namespace trabahuso_api.Mapper
 {
     public static class TechSkillMapper
     {
-        public static List<TechSkill> ToTechSkills(this List<List<ResultRow>> rows)
+        public static List<TechSkill> ToTechSkills(this List<List<Row>> rows)
         {
             List<TechSkill> techSkills = [];
-            foreach (List<ResultRow> row in rows)
+            foreach (List<Row> row in rows)
             {
 
-                ResultRow x = row[0];
-                ResultRow y = row[1];
-                ResultRow z = row[2];
+                Row x = row[0];
+                Row y = row[1];
+                Row z = row[2];
 
                 if (x.Value != null && y.Value != null && z.Value != null)
                 {
@@ -36,12 +36,12 @@ namespace trabahuso_api.Mapper
             return techSkills;
         }
 
-        public static TechSkill? ToTechSkill(this List<ResultRow> row)
+        public static TechSkill? ToTechSkill(this List<Row> row)
         {
 
-            ResultRow x = row[0];
-            ResultRow y = row[1];
-            ResultRow z = row[2];
+            Row x = row[0];
+            Row y = row[1];
+            Row z = row[2];
 
             if (x.Value != null && y.Value != null && z.Value != null)
             {
