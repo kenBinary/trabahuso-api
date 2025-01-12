@@ -11,6 +11,7 @@ namespace trabahuso_api.DTOs.Job
         string? JobTitle,
         string? Location,
         double? Salary,
-        string? JobLevel
+        string? JobLevel,
+        string? DateScraped
     );
 }

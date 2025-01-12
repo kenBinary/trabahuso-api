@@ -55,7 +55,8 @@ namespace trabahuso_api.Mapper
                 job.JobTitle,
                 job.Location,
                 job.Salary,
-                job.JobLevel
+                job.JobLevel,
+                job.DateScraped
             );
         }
 
