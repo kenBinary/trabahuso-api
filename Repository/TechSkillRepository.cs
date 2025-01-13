@@ -13,6 +13,32 @@ namespace trabahuso_api.Repository
 {
     public class TechSkillRepository : ITechSkillRepository
     {
+        private static class NormalizationData
+        {
+            public static readonly string[] ProgrammingLanguages = ["c", "c#", "c++", "clojure", "cobol",
+            "css", "css3", "dart", "elixir", "erlang", "f#", "fortran", "gdscript", "go", "groovy", "haskell",
+            "html", "html5", "java", "javascript", "js", "kotlin", "lua", "matlab", "objective-c", "perl", "php",
+            "php 7", "python", "python 3", "ruby", "rust", "scala", "solidity", "sql", "swift", "typescript", "zig"];
+            public static readonly string[] CloudPlatforms = ["alibaba cloud", "amazon web services", "aws", "azure",
+            "cisco cloud", "digitalocean", "firebase", "gcp", "google cloud", "google cloud platform", "heroku",
+            "ibm cloud", "linode", "microsoft azure", "oracle cloud", "oracle cloud infrastructure", "sap cloud platform"];
+            public static readonly string[] Databases = ["cassandra", "dynamodb", "eloquent orm", "mariadb",
+            "microsoft sql server", "mongodb", "mongoose", "ms sql server", "mysql", "nosql", "peewee", "postgresql",
+            "redis", "sqlite"];
+            public static readonly string[] FrameworksAndLibraries = [".net", ".net core", "angular", "asp.net",
+            "asp.net core", "backbone", "bootstrap", "bulma", "cakephp", "django", "django orm", "ember", "ember.js",
+            "emberjs", "express", "express.js", "expressjs", "fastapi", "fastify", "flask", "flutter", "gatsby",
+            "gorm", "graphql", "hibernate", "java ee", "java se", "java server faces", "javafx", "jquery",
+            "knex.js", "laravel", "laravel eloquent", "lodash", "material-ui", "materialize", "matplotlib",
+            "nestjs", "next.js", "nextjs", "node.js", "nodejs", "numpy", "nuxt", "nuxt.js", "pandas", "phoenix",
+            "prisma", "pygame", "pytorch", "rails active record", "react", "react native", "react.js", "reactjs",
+            "redux", "ruby on rails", "rxjs", "semantic ui", "sequelize", "socket.io", "spring", "spring boot",
+            "spring data", "spring data jpa", "sqlalchemy", "svelte", "symfony", "tailwind", "tailwind css",
+            "tailwindcss", "tensorflow", "typeorm", "unity", "vue", "vue.js", "vuejs", "webpack", "xamarin"];
+            public static readonly string[] Tools = ["android studio", "assembly", "bash", "docker", "git",
+            "github", "gitlab", "gradle", "grunt", "gulp", "jenkins", "jira", "kubernetes", "linux", "postman",
+            "powershell", "preact"];
+        }
         private readonly IConfiguration _config;
         private readonly TursoDatabaseSettings? _dbSettings;
         private readonly HttpClient _httpClient;
@@ -43,11 +69,33 @@ namespace trabahuso_api.Repository
                 !techSkillFilters.RetrieveAll,
                 queryBuilder => queryBuilder.Offset(techSkillFilters.PageNumber)
             );
+
             queryBuilder.When(
                 !techSkillFilters.RetrieveAll,
                 queryBuilder => queryBuilder.Limit(techSkillFilters.PageSize)
             );
 
+            queryBuilder.When(
+                techSkillFilters.Category != null,
+                queryBuilder =>
+                {
+                    switch (techSkillFilters.Category)
+                    {
+                        case "programming_languages":
+                            return queryBuilder.WhereIn("tech_type", NormalizationData.ProgrammingLanguages);
+                        case "databases":
+                            return queryBuilder.WhereIn("tech_type", NormalizationData.Databases);
+                        case "frameworks_and_libraries":
+                            return queryBuilder.WhereIn("tech_type", NormalizationData.FrameworksAndLibraries);
+                        case "cloud_platforms":
+                            return queryBuilder.WhereIn("tech_type", NormalizationData.CloudPlatforms);
+                        case "tools":
+                            return queryBuilder.WhereIn("tech_type", NormalizationData.Tools);
+                        default:
+                            return queryBuilder;
+                    }
+                }
+            );
 
             var compiledQuery = _sqliteCompiler.Compile(queryBuilder);
 
