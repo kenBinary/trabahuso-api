@@ -57,5 +57,18 @@ namespace trabahuso_api.Controllers
             return Ok(techSkill.ToTechSkillDto());
         }
 
+        [HttpGet("counts")]
+        public async Task<IActionResult> GetCounts([FromQuery] TechSkillCountsFilters techSkillCountsFilters)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var techSkillCounts = await _techSkillRepository.GetCountsAsync(techSkillCountsFilters);
+
+            return Ok(techSkillCounts);
+        }
+
     }
 }

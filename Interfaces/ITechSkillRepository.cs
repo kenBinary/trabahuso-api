@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using trabahuso_api.DTOs.Querries;
+using trabahuso_api.DTOs.TechSkill;
 using trabahuso_api.Models;
 
 namespace trabahuso_api.Interfaces
@@ -17,5 +18,6 @@ namespace trabahuso_api.Interfaces
 
         Task<TechSkill?> GetByIdAsync(string techSkillId);
         Task<List<TechSkill>> GetAllAsync(TechSkillFilters techSkillFilters);
+        Task<List<TechSkillCountsDto>> GetCountsAsync(TechSkillCountsFilters techSkillCountsFilters);
     }
 }

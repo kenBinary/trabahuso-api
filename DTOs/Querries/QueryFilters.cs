@@ -25,6 +25,13 @@ namespace trabahuso_api.DTOs.Querries
         public string? Category { get; set; }
         public bool Group { get; set; } = false;
     }
+    public record TechSkillCountsFilters : QueryFilters
+    {
+        [AllowedValuesCustom(["programming_languages", "databases", "frameworks_and_libraries", "cloud_platforms", "tools",])]
+        public string? Category { get; set; }
+        public bool IsDescending { get; set; } = false;
+    }
+
 
     public record JobFilters : QueryFilters
     {

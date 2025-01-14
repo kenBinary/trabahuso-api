@@ -5,6 +5,8 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using SqlKata;
 using trabahuso_api.DTOs.Querries;
+using trabahuso_api.DTOs.TechSkill;
+using trabahuso_api.Helpers;
 using trabahuso_api.Interfaces;
 using trabahuso_api.Mapper;
 using trabahuso_api.Models;
@@ -206,6 +208,109 @@ namespace trabahuso_api.Repository
             }
 
 
+        }
+
+        public async Task<List<TechSkillCountsDto>> GetCountsAsync(TechSkillCountsFilters techSkillCountsFilters)
+        {
+            List<TechSkillCountsDto> techSkillCounts = [];
+
+            var queryBuilder = new Query("tech_skill")
+            .Select("tech_type")
+            .SelectRaw("COUNT(TECH_TYPE) as count")
+            .GroupBy("tech_type");
+
+            queryBuilder.When(
+                !techSkillCountsFilters.RetrieveAll,
+                queryBuilder => queryBuilder.Offset(techSkillCountsFilters.PageNumber)
+            );
+
+            queryBuilder.When(
+                 !techSkillCountsFilters.RetrieveAll,
+                 queryBuilder => queryBuilder.Limit(techSkillCountsFilters.PageSize)
+             );
+
+            queryBuilder.When(
+                techSkillCountsFilters.Category != null,
+                queryBuilder =>
+                {
+                    switch (techSkillCountsFilters.Category)
+                    {
+                        case "programming_languages":
+                            return queryBuilder.WhereIn("tech_type", NormalizationData.ProgrammingLanguages);
+                        case "databases":
+                            return queryBuilder.WhereIn("tech_type", NormalizationData.Databases);
+                        case "frameworks_and_libraries":
+                            return queryBuilder.WhereIn("tech_type", NormalizationData.FrameworksAndLibraries);
+                        case "cloud_platforms":
+                            return queryBuilder.WhereIn("tech_type", NormalizationData.CloudPlatforms);
+                        case "tools":
+                            return queryBuilder.WhereIn("tech_type", NormalizationData.Tools);
+                        default:
+                            return queryBuilder;
+                    }
+                }
+            );
+
+            queryBuilder.When(
+               !techSkillCountsFilters.IsDescending,
+               queryBuilder => queryBuilder.OrderByDesc("count")
+            );
+
+            var compiledQuery = _sqliteCompiler.Compile(queryBuilder);
+
+            using HttpResponseMessage response = await _httpClient.PostAsJsonAsync(
+                "",
+                new RequestData(
+                    [
+                        new Request(
+                            "execute",
+                            new Statement(
+                                compiledQuery.RawSql,
+                                compiledQuery.Bindings.ToSqlArguments()
+                            )
+                        )
+                    ]
+                )
+            );
+
+            if (response == null)
+            {
+                return [];
+            }
+
+            if (!response.IsSuccessStatusCode)
+            {
+                Console.WriteLine(response.StatusCode);
+                return [];
+            }
+
+            string stringJson = await response.Content.ReadAsStringAsync();
+            TursoResponse? responseObject = JsonSerializer.Deserialize<TursoResponse>(stringJson);
+
+            if (responseObject == null)
+            {
+                Console.WriteLine("Failed to Deserialize");
+                return [];
+            }
+            TursoResponseParser tursoParser = new TursoResponseParser();
+            List<List<Row>>? rows = tursoParser.ParseResultRows(responseObject);
+
+            if (rows == null)
+            {
+                return [];
+            }
+
+            foreach (var row in rows)
+            {
+                string? techType = row[0].Value;
+                string? count = row[1].Value;
+                if (techType != null && count != null)
+                {
+                    techSkillCounts.Add(new TechSkillCountsDto(techType, int.Parse(count)));
+                }
+            }
+
+            return techSkillCounts;
         }
     }
 }
