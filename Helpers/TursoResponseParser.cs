@@ -126,5 +126,27 @@ namespace trabahuso_api.Helpers
 
             return data;
         }
+        public List<List<Row>>? ParseResultRows(TursoResponse tursoResponse)
+        {
+            Result? result = tursoResponse.GetFirstResult();
+
+            if (result == null)
+            {
+                return null;
+            }
+
+            if (result.Response == null)
+            {
+                return null;
+            }
+
+            Response response = result.Response;
+
+            ExecuteResult executeResult = response.Result;
+
+            List<List<Row>> rows = executeResult.Rows;
+
+            return rows;
+        }
     }
 }
