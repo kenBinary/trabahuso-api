@@ -230,6 +230,11 @@ namespace trabahuso_api.Repository
              );
 
             queryBuilder.When(
+                 techSkillCountsFilters.IsDescending,
+                 queryBuilder => queryBuilder.OrderByDesc("count")
+              );
+
+            queryBuilder.When(
                 techSkillCountsFilters.Category != null,
                 queryBuilder =>
                 {
@@ -251,10 +256,6 @@ namespace trabahuso_api.Repository
                 }
             );
 
-            queryBuilder.When(
-               !techSkillCountsFilters.IsDescending,
-               queryBuilder => queryBuilder.OrderByDesc("count")
-            );
 
             var compiledQuery = _sqliteCompiler.Compile(queryBuilder);
 
