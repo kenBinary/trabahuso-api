@@ -7,6 +7,16 @@ using trabahuso_api.Repository;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddHsts(options =>
+{
+    options.MaxAge = TimeSpan.FromDays(365);
+});
+
+builder.WebHost.UseKestrel(options =>
+{
+    options.AddServerHeader = false;
+});
+
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("DevelopmentCorsPolicy", policy =>
@@ -50,13 +60,22 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
     app.UseCors("DevelopmentCorsPolicy");
-}
 
-if (!app.Environment.IsDevelopment())
+}
+else
 {
     app.UseHsts();
     app.UseRateLimiter();
+
 }
+
+app.Use(async (context, next) =>
+{
+    context.Response.Headers.Append("X-Content-Type-Options", "nosniff");
+    context.Response.Headers.Append("X-Frame-Options", "DENY");
+    context.Response.Headers.Append("Strict-Transport-Security", "max-age=31536000; includeSubDomains");
+    await next.Invoke();
+});
 
 app.MapControllers().RequireRateLimiting("fixed-by-ip");
 
