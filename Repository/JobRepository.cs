@@ -6,6 +6,7 @@ using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Options;
 using SqlKata;
 using SqlKata.Compilers;
 using trabahuso_api.DTOs.Querries;
@@ -17,15 +18,13 @@ namespace trabahuso_api.Repository
 {
     public class JobRepository : IJobRepository
     {
-        private readonly IConfiguration _config;
-        private readonly TursoDatabaseSettings? _dbSettings;
         private readonly HttpClient _httpClient;
         private readonly ISqliteQueryCompiler _sqliteCompiler;
-        public JobRepository(IConfiguration config, ISqliteQueryCompiler sqliteCompiler)
+        private readonly TursoDatabaseSettings? _dbSettings;
+        public JobRepository(ISqliteQueryCompiler sqliteCompiler, IOptions<TursoDatabaseSettings> options)
         {
+            _dbSettings = options.Value ?? new TursoDatabaseSettings();
             _sqliteCompiler = sqliteCompiler;
-            _config = config;
-            _dbSettings = _config.GetSection("TursoDatabase").Get<TursoDatabaseSettings>();
             _httpClient = new HttpClient()
             {
                 BaseAddress = new Uri(_dbSettings?.Url ?? ""),

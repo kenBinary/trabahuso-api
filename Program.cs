@@ -3,6 +3,7 @@ using System.Threading.RateLimiting;
 using Microsoft.AspNetCore.RateLimiting;
 using trabahuso_api.Helpers;
 using trabahuso_api.Interfaces;
+using trabahuso_api.Models;
 using trabahuso_api.Repository;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -17,14 +18,24 @@ builder.WebHost.UseKestrel(options =>
     options.AddServerHeader = false;
 });
 
+string? host = builder.Configuration.GetValue<string>("AllowedHosts");
+builder.Services.Configure<TursoDatabaseSettings>(
+    builder.Configuration.GetSection(TursoDatabaseSettings.TursoDatabase));
+
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("DevelopmentCorsPolicy", policy =>
     {
-        policy.WithOrigins("http://localhost:3000", "http://localhost:5173")
+        policy.WithOrigins("*")
               .AllowAnyHeader()
-              .AllowAnyMethod()
-              .AllowCredentials();
+              .AllowAnyMethod();
+    });
+
+    options.AddPolicy("ProductionCorsPolicy", policy =>
+    {
+        policy.WithOrigins(host ?? "")
+              .AllowAnyHeader()
+              .AllowAnyMethod();
     });
 });
 

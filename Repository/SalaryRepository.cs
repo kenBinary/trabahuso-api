@@ -1,4 +1,5 @@
 using System.Text.Json;
+using Microsoft.Extensions.Options;
 using SqlKata;
 using trabahuso_api.Helpers;
 using trabahuso_api.Interfaces;
@@ -10,15 +11,13 @@ namespace trabahuso_api.Repository
 {
     public class SalaryRepository : ISalaryRepository
     {
-        private readonly IConfiguration _config;
         private readonly TursoDatabaseSettings? _dbSettings;
         private readonly HttpClient _httpClient;
         private readonly ISqliteQueryCompiler _sqliteCompiler;
-        public SalaryRepository(IConfiguration config, ISqliteQueryCompiler sqliteCompiler)
+        public SalaryRepository(ISqliteQueryCompiler sqliteCompiler, IOptions<TursoDatabaseSettings> options)
         {
+            _dbSettings = options.Value ?? new TursoDatabaseSettings();
             _sqliteCompiler = sqliteCompiler;
-            _config = config;
-            _dbSettings = _config.GetSection("TursoDatabase").Get<TursoDatabaseSettings>();
             _httpClient = new HttpClient()
             {
                 BaseAddress = new Uri(_dbSettings?.Url ?? ""),

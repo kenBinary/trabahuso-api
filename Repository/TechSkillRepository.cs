@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Options;
 using SqlKata;
 using trabahuso_api.DTOs.Querries;
 using trabahuso_api.DTOs.TechSkill;
@@ -41,16 +42,14 @@ namespace trabahuso_api.Repository
             "github", "gitlab", "gradle", "grunt", "gulp", "jenkins", "jira", "kubernetes", "linux", "postman",
             "powershell", "preact"];
         }
-        private readonly IConfiguration _config;
         private readonly TursoDatabaseSettings? _dbSettings;
         private readonly HttpClient _httpClient;
         private readonly ISqliteQueryCompiler _sqliteCompiler;
 
-        public TechSkillRepository(IConfiguration config, ISqliteQueryCompiler sqliteQueryCompiler)
+        public TechSkillRepository(ISqliteQueryCompiler sqliteQueryCompiler, IOptions<TursoDatabaseSettings> options)
         {
+            _dbSettings = options.Value ?? new TursoDatabaseSettings();
             _sqliteCompiler = sqliteQueryCompiler;
-            _config = config;
-            _dbSettings = _config.GetSection("TursoDatabase").Get<TursoDatabaseSettings>();
             _httpClient = new HttpClient()
             {
                 BaseAddress = new Uri(_dbSettings?.Url ?? ""),

@@ -18,6 +18,7 @@ using trabahuso_api.Mapper;
 using trabahuso_api.Models;
 using trabahuso_api.DTOs.Location;
 using trabahuso_api.Helpers;
+using Microsoft.Extensions.Options;
 
 
 namespace trabahuso_api.Repository
@@ -25,15 +26,13 @@ namespace trabahuso_api.Repository
 
     public class LocationRepository : ILocationRepository
     {
-        private readonly IConfiguration _config;
         private readonly TursoDatabaseSettings? _dbSettings;
         private readonly HttpClient _httpClient;
         private readonly ISqliteQueryCompiler _sqliteCompiler;
-        public LocationRepository(IConfiguration config, ISqliteQueryCompiler sqliteCompiler)
+        public LocationRepository(ISqliteQueryCompiler sqliteCompiler, IOptions<TursoDatabaseSettings> options)
         {
+            _dbSettings = options.Value ?? new TursoDatabaseSettings();
             _sqliteCompiler = sqliteCompiler;
-            _config = config;
-            _dbSettings = _config.GetSection("TursoDatabase").Get<TursoDatabaseSettings>();
             _httpClient = new HttpClient()
             {
                 BaseAddress = new Uri(_dbSettings?.Url ?? ""),
