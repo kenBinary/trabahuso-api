@@ -488,4 +488,3 @@ $RECYCLE.BIN/
 appsettings.json
 appsettings.*.json
 !appsettings.Template.json
-!appsettings.Development.json
