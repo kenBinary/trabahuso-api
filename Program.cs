@@ -73,11 +73,17 @@ if (app.Environment.IsDevelopment())
     app.UseCors("DevelopmentCorsPolicy");
 
 }
+if (app.Environment.IsStaging())
+{
+    app.UseHsts();
+    app.UseRateLimiter();
+    Console.WriteLine("Application starting in Staging mode");
+}
 else
 {
     app.UseHsts();
     app.UseRateLimiter();
-
+    Console.WriteLine("Application starting in Production mode");
 }
 
 app.Use(async (context, next) =>
