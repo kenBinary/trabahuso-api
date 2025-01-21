@@ -3,10 +3,13 @@ using System.Threading.RateLimiting;
 using Microsoft.AspNetCore.RateLimiting;
 using trabahuso_api.Helpers;
 using trabahuso_api.Interfaces;
+using trabahuso_api.Middlewares;
 using trabahuso_api.Models;
 using trabahuso_api.Repository;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddTransient<GlobalErrorHandler>();
 
 builder.Services.AddHsts(options =>
 {
@@ -65,6 +68,8 @@ builder.Services.AddRateLimiter(options =>
 });
 
 var app = builder.Build();
+
+app.UseMiddleware<GlobalErrorHandler>();
 
 if (app.Environment.IsDevelopment())
 {

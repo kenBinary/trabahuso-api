@@ -45,9 +45,13 @@ namespace trabahuso_api.Repository
         private readonly TursoDatabaseSettings? _dbSettings;
         private readonly HttpClient _httpClient;
         private readonly ISqliteQueryCompiler _sqliteCompiler;
+        private readonly ILogger<TechSkillRepository> _logger;
 
-        public TechSkillRepository(ISqliteQueryCompiler sqliteQueryCompiler, IOptions<TursoDatabaseSettings> options)
+        public TechSkillRepository(
+            ISqliteQueryCompiler sqliteQueryCompiler, IOptions<TursoDatabaseSettings> options,
+            ILogger<TechSkillRepository> logger)
         {
+            _logger = logger;
             _dbSettings = options.Value ?? new TursoDatabaseSettings();
             _sqliteCompiler = sqliteQueryCompiler;
             _httpClient = new HttpClient()
@@ -117,10 +121,8 @@ namespace trabahuso_api.Repository
 
             if (!response.IsSuccessStatusCode)
             {
-                Console.WriteLine(response.StatusCode);
-                Console.WriteLine(response.RequestMessage);
-                Console.WriteLine("response unsuccessful");
-                return [];
+                _logger.LogError("failed to exectue HTTP request to turso");
+                throw new Exception("failed to exectue HTTP request to turso");
             }
 
             string stringJson = await response.Content.ReadAsStringAsync();
@@ -174,10 +176,8 @@ namespace trabahuso_api.Repository
 
             if (!response.IsSuccessStatusCode)
             {
-                Console.WriteLine(response.StatusCode);
-                Console.WriteLine(response.RequestMessage);
-                Console.WriteLine("response unsuccessful");
-                return null;
+                _logger.LogError("failed to exectue HTTP request to turso");
+                throw new Exception("failed to exectue HTTP request to turso");
             }
 
             string stringJson = await response.Content.ReadAsStringAsync();
@@ -273,15 +273,10 @@ namespace trabahuso_api.Repository
                 )
             );
 
-            if (response == null)
-            {
-                return [];
-            }
-
             if (!response.IsSuccessStatusCode)
             {
-                Console.WriteLine(response.StatusCode);
-                return [];
+                _logger.LogError("failed to exectue HTTP request to turso");
+                throw new Exception("failed to exectue HTTP request to turso");
             }
 
             string stringJson = await response.Content.ReadAsStringAsync();
@@ -289,9 +284,10 @@ namespace trabahuso_api.Repository
 
             if (responseObject == null)
             {
-                Console.WriteLine("Failed to Deserialize");
-                return [];
+                _logger.LogError("failed to deserialize");
+                throw new Exception("failed to deserialize");
             }
+
             TursoResponseParser tursoParser = new TursoResponseParser();
             List<List<Row>>? rows = tursoParser.ParseResultRows(responseObject);
 
