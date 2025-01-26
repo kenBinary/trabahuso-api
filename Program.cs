@@ -100,7 +100,7 @@ app.Use(async (context, next) =>
 });
 
 app.MapControllers().RequireRateLimiting("fixed-by-ip");
-
+app.UseStatusCodePages();
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
