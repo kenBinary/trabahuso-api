@@ -21,7 +21,7 @@ builder.WebHost.UseKestrel(options =>
     options.AddServerHeader = false;
 });
 
-string? host = builder.Configuration.GetValue<string>("AllowedHosts");
+string? origin = builder.Configuration.GetValue<string>("Origin");
 builder.Services.Configure<TursoDatabaseSettings>(
     builder.Configuration.GetSection(TursoDatabaseSettings.TursoDatabase));
 
@@ -36,7 +36,7 @@ builder.Services.AddCors(options =>
 
     options.AddPolicy("ProductionCorsPolicy", policy =>
     {
-        policy.WithOrigins(host ?? "")
+        policy.WithOrigins(origin ?? "")
               .AllowAnyHeader()
               .AllowAnyMethod();
     });
@@ -78,7 +78,7 @@ if (app.Environment.IsDevelopment())
     app.UseCors("DevelopmentCorsPolicy");
 
 }
-if (app.Environment.IsStaging())
+else if (app.Environment.IsStaging())
 {
     app.UseHsts();
     app.UseRateLimiter();
@@ -86,9 +86,12 @@ if (app.Environment.IsStaging())
 }
 else
 {
+    var appUrl = app.Configuration.GetValue<string>("ASPNETCORE_URLS");
     app.UseHsts();
     app.UseRateLimiter();
+    app.UseCors("DevelopmentCorsPolicy");
     Console.WriteLine("Application starting in Production mode");
+    Console.WriteLine($"Application running on the url: {appUrl}");
 }
 
 app.Use(async (context, next) =>
@@ -101,6 +104,7 @@ app.Use(async (context, next) =>
 
 app.MapControllers().RequireRateLimiting("fixed-by-ip");
 app.UseStatusCodePages();
+app.UseRouteLogging();
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
